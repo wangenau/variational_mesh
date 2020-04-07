@@ -1,0 +1,38 @@
+
+
+******** <class 'pyscf.dft.rks.RKS'> ********
+method = RKS-RHF
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+SCF conv_tol = 1e-09
+SCF conv_tol_grad = None
+SCF max_cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /home/wanja/Documents/Studium/Master/4. Semester/Seminar Thesis/variational_mesh/getting_started/tmp7beyu7pg
+max_memory 4000 MB (current use 61 MB)
+XC functionals = lda
+small_rho_cutoff = 1e-07
+Set gradient conv threshold to 3.16228e-05
+init E= -74.0852360020628
+  HOMO = -0.23650762974432  LUMO = 0.279998651715718
+cycle= 1 E= -73.9783030546148  delta_E= 0.107  |g|= 0.505  |ddm|= 1.67
+  HOMO = 0.169481438603916  LUMO = 0.429143415201116
+cycle= 2 E= -73.9283926861166  delta_E= 0.0499  |g|= 0.64  |ddm|= 1.62
+  HOMO = 0.0043513026142841  LUMO = 0.352558756100206
+cycle= 3 E= -74.0686693081491  delta_E= -0.14  |g|= 0.00489  |ddm|= 0.936
+  HOMO = 0.00142776684780259  LUMO = 0.34807203665496
+cycle= 4 E= -74.0686770391404  delta_E= -7.73e-06  |g|= 0.0017  |ddm|= 0.0114
+  HOMO = 0.00113614898085558  LUMO = 0.348055482203379
+cycle= 5 E= -74.0686781336354  delta_E= -1.09e-06  |g|= 6.42e-05  |ddm|= 0.00298
+  HOMO = 0.00111789468112334  LUMO = 0.348042687265026
+cycle= 6 E= -74.0686781350315  delta_E= -1.4e-09  |g|= 4.62e-06  |ddm|= 8.96e-05
+  HOMO = 0.00111660764429274  LUMO = 0.348042206074344
+cycle= 7 E= -74.0686781350386  delta_E= -7.06e-12  |g|= 1.08e-07  |ddm|= 6.16e-06
+  HOMO = 0.00111654167413896  LUMO = 0.348042181275597
+Extra cycle  E= -74.0686781350386  delta_E= -1.42e-14  |g|= 1.36e-07  |ddm|= 3.28e-07
+converged SCF energy = -74.0686781350386
