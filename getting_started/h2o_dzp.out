@@ -13,28 +13,28 @@ SCF conv_tol_grad = None
 SCF max_cycles = 50
 direct_scf = True
 direct_scf_tol = 1e-13
-chkfile to save SCF result = /home/wanja/Documents/Studium/Master/4. Semester/Seminar Thesis/variational_mesh/getting_started/tmpark8qxsr
+chkfile to save SCF result = /home/wanja/Documents/Studium/Master/4. Semester/Seminar Thesis/variational_mesh/getting_started/tmp59wha5px
 max_memory 4000 MB (current use 61 MB)
 XC functionals = lda,pw
 small_rho_cutoff = 1e-07
 Set gradient conv threshold to 3.16228e-05
 init E= -75.7983853925395
-  HOMO = -0.398553528938871  LUMO = -0.0219867543858119
+  HOMO = -0.398553528938872  LUMO = -0.0219867543858112
 cycle= 1 E= -75.7534887397128  delta_E= 0.0449  |g|= 0.752  |ddm|= 1.39
-  HOMO = -0.0579534094598511  LUMO = 0.0564728453392566
+  HOMO = -0.0579534094598551  LUMO = 0.0564728453392573
 cycle= 2 E= -75.4142895304116  delta_E= 0.339  |g|=  1.5  |ddm|=  1.5
-  HOMO = -0.251144557689647  LUMO = 0.00296482893422095
-cycle= 3 E= -75.8667930983854  delta_E= -0.453  |g|= 0.0268  |ddm|= 1.04
-  HOMO = -0.245303598153365  LUMO = 0.00568050951422183
+  HOMO = -0.25114455768965  LUMO = 0.00296482893421984
+cycle= 3 E= -75.8667930983855  delta_E= -0.453  |g|= 0.0268  |ddm|= 1.04
+  HOMO = -0.245303598153364  LUMO = 0.00568050951422747
 cycle= 4 E= -75.8669319121524  delta_E= -0.000139  |g|= 0.0099  |ddm|= 0.0214
-  HOMO = -0.244904225618469  LUMO = 0.00472744699569542
+  HOMO = -0.244904225618469  LUMO = 0.00472744699569978
 cycle= 5 E= -75.8669507480285  delta_E= -1.88e-05  |g|= 0.00168  |ddm|= 0.00665
-  HOMO = -0.244725805798391  LUMO = 0.00473753131227667
-cycle= 6 E= -75.86695123665  delta_E= -4.89e-07  |g|= 6.47e-05  |ddm|= 0.00102
-  HOMO = -0.244728859155623  LUMO = 0.00472679489853125
-cycle= 7 E= -75.8669512377418  delta_E= -1.09e-09  |g|= 1.47e-05  |ddm|= 7.13e-05
-  HOMO = -0.24472630312829  LUMO = 0.00472807929509985
-cycle= 8 E= -75.8669512377817  delta_E= -3.98e-11  |g|= 9.6e-07  |ddm|= 9.9e-06
-  HOMO = -0.244725900076362  LUMO = 0.00472813724109219
-Extra cycle  E= -75.8669512377813  delta_E= 3.41e-13  |g|= 1.91e-06  |ddm|= 1.83e-06
-converged SCF energy = -75.8669512377813
+  HOMO = -0.244725805798387  LUMO = 0.00473753131228037
+cycle= 6 E= -75.8669512366499  delta_E= -4.89e-07  |g|= 6.47e-05  |ddm|= 0.00102
+  HOMO = -0.244728859155626  LUMO = 0.00472679489852977
+cycle= 7 E= -75.8669512377417  delta_E= -1.09e-09  |g|= 1.47e-05  |ddm|= 7.13e-05
+  HOMO = -0.244726303128228  LUMO = 0.00472807929513617
+cycle= 8 E= -75.8669512377817  delta_E= -4e-11  |g|= 9.6e-07  |ddm|= 9.9e-06
+  HOMO = -0.24472590007646  LUMO = 0.00472813724105434
+Extra cycle  E= -75.8669512377812  delta_E= 5.12e-13  |g|= 1.91e-06  |ddm|= 1.83e-06
+converged SCF energy = -75.8669512377812

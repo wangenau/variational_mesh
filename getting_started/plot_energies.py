@@ -5,7 +5,7 @@ from matplotlib.ticker import FormatStrFormatter
 def get_energies(file):
     '''Get energies per iteration from an output file.'''
     energies = []
-    with open(file,'r') as file:
+    with open(file, 'r') as file:
         for line in file:
             tmp = line.rstrip().split(' E= ')
             if len(tmp) >= 2:

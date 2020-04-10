@@ -13,7 +13,7 @@ SCF conv_tol_grad = None
 SCF max_cycles = 50
 direct_scf = True
 direct_scf_tol = 1e-13
-chkfile to save SCF result = /home/wanja/Documents/Studium/Master/4. Semester/Seminar Thesis/variational_mesh/getting_started/tmpwd9i87a8
+chkfile to save SCF result = /home/wanja/Documents/Studium/Master/4. Semester/Seminar Thesis/variational_mesh/getting_started/tmpvuo62t2c
 max_memory 4000 MB (current use 61 MB)
 XC functionals = lda,pw
 small_rho_cutoff = 1e-07
@@ -23,16 +23,16 @@ init E= -74.7381126309803
 cycle= 1 E= -74.6404972933715  delta_E= 0.0976  |g|= 0.517  |ddm|= 1.67
   HOMO = 0.111826155345399  LUMO = 0.374609819789236
 cycle= 2 E= -74.5930867813215  delta_E= 0.0474  |g|= 0.645  |ddm|= 1.65
-  HOMO = -0.0580846961507618  LUMO = 0.295611607809693
+  HOMO = -0.0580846961507623  LUMO = 0.295611607809693
 cycle= 3 E= -74.7360221864306  delta_E= -0.143  |g|= 0.00466  |ddm|= 0.944
-  HOMO = -0.0613403082608167  LUMO = 0.290502365084643
+  HOMO = -0.0613403082608165  LUMO = 0.290502365084645
 cycle= 4 E= -74.736029604962  delta_E= -7.42e-06  |g|= 0.00173  |ddm|= 0.0121
-  HOMO = -0.0616610617046516  LUMO = 0.290462623606354
+  HOMO = -0.0616610617046526  LUMO = 0.290462623606357
 cycle= 5 E= -74.7360307332341  delta_E= -1.13e-06  |g|= 6.47e-05  |ddm|= 0.00299
-  HOMO = -0.0616805364069257  LUMO = 0.290448747429595
+  HOMO = -0.061680536406828  LUMO = 0.290448747429667
 cycle= 6 E= -74.7360307346616  delta_E= -1.43e-09  |g|= 4.38e-06  |ddm|= 9.11e-05
-  HOMO = -0.0616817938848137  LUMO = 0.290448267346885
-cycle= 7 E= -74.736030734668  delta_E= -6.37e-12  |g|= 1.17e-07  |ddm|= 5.87e-06
-  HOMO = -0.0616818667640633  LUMO = 0.290448239609512
-Extra cycle  E= -74.7360307346679  delta_E= 1.42e-14  |g|= 1.45e-07  |ddm|= 3.53e-07
-converged SCF energy = -74.7360307346679
+  HOMO = -0.0616817936212526  LUMO = 0.29044826744749
+cycle= 7 E= -74.736030734668  delta_E= -6.38e-12  |g|= 1.18e-07  |ddm|= 5.87e-06
+  HOMO = -0.0616818670573318  LUMO = 0.290448239497603
+Extra cycle  E= -74.736030734668  delta_E=    0  |g|= 1.46e-07  |ddm|= 3.56e-07
+converged SCF energy = -74.736030734668
