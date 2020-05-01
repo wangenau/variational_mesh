@@ -9,6 +9,7 @@ ch4.atom = 'C 0.5, 0.5, 0.5; H 0, 0, 0; H 0, 1, 1; H 1, 1, 0; H 1, 0, 1'
 ch4.basis = 'sto-3g'
 ch4.build()
 
+# get the calculation time per grid level
 mf = dft.RKS(ch4)
 mf.xc = 'lda,pw'
 e_tot = []
@@ -21,6 +22,7 @@ for i in range(10):
     e_tot.append(mf.e_tot)
     times.append(end - start)
 
+# plot energy and time per grid level
 fig, ax1 = plt.subplots()
 ax1.yaxis.set_major_formatter(FormatStrFormatter('%.4f'))
 ax1.set_xlabel('grid level')
