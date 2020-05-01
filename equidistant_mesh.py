@@ -5,6 +5,11 @@ from pyscf.dft import radi
 
 def gen_partition_equidistant(mol, atom_grids_tab, radii_adjust=None,
                               atomic_radii=radi.BRAGG_RADII, becke_scheme=None):
+    '''
+    Generate an equidistant mesh around every atom of a given molecule. The mesh
+    will have the form of a cube with edge lengths two times the atomic bragg
+    radii.
+    '''
     nsteps = 10  # mesh points per axis
     atm_coords = np.asarray(mol.atom_coords())
     coords_all = []
@@ -21,15 +26,15 @@ def gen_partition_equidistant(mol, atom_grids_tab, radii_adjust=None,
         coords = np.vstack(coords)
         coords += atm_coords[ia]
         vol = (rad/(nsteps-1))**3
-        weights = np.full((len(coords),), vol)
+        weights = np.full(len(coords), vol)
         coords_all.append(coords)
         weights_all.append(weights)
     return np.vstack(coords_all), np.hstack(weights_all)
 
 
 def main():
-    h2o = gto.M(atom='O 0, 0, 0; H 0, 1, 0; H 0, 0, 1', basis='sto-3g')
-    mf = dft.RKS(h2o).set(xc='lda,pw')
+    mol = gto.M(atom='O 0, 0, 0; H 0, 1, 0; H 0, 0, 1', basis='sto-3g')
+    mf = dft.RKS(mol).set(xc='lda,pw')
     mf.grids.gen_partition = gen_partition_equidistant
     mf.kernel()
 
