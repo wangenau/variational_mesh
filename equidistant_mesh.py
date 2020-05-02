@@ -1,14 +1,17 @@
+#!/usr/bin/env python
+import helpers
 import numpy as np
 from pyscf import dft, gto
 from pyscf.dft import radi
 
 
-def gen_partition_equidistant(mol, atom_grids_tab, radii_adjust=None,
-                              atomic_radii=radi.BRAGG_RADII, becke_scheme=None):
+def gen_partition_equidist(mol, atom_grids_tab, radii_adjust=None,
+                           atomic_radii=radi.BRAGG_RADII, becke_scheme=None):
     '''
-    Generate an equidistant mesh around every atom of a given molecule. The mesh
-    will have the form of a cube with edge lengths two times the atomic bragg
-    radii.
+    Generate an equidistant mesh around every atom of a given molecule.
+    The mesh will have the form of a cube with edge lengths two times the
+    atomic bragg radii.
+    Signature is taken from pyscf.dft.gen_grid.gen_partition.
     '''
     nsteps = 10  # mesh points per axis
     atm_coords = np.asarray(mol.atom_coords())
@@ -25,7 +28,7 @@ def gen_partition_equidistant(mol, atom_grids_tab, radii_adjust=None,
                     coords.append([x, y, z])
         coords = np.vstack(coords)
         coords += atm_coords[ia]
-        vol = (rad/(nsteps-1))**3
+        vol = (rad / (nsteps - 1))**3
         weights = np.full(len(coords), vol)
         coords_all.append(coords)
         weights_all.append(weights)
@@ -35,8 +38,14 @@ def gen_partition_equidistant(mol, atom_grids_tab, radii_adjust=None,
 def main():
     mol = gto.M(atom='O 0, 0, 0; H 0, 1, 0; H 0, 0, 1', basis='sto-3g')
     mf = dft.RKS(mol).set(xc='lda,pw')
-    mf.grids.gen_partition = gen_partition_equidistant
+    mf.grids.gen_partition = gen_partition_equidist
     mf.kernel()
+
+    # get coordinates of atoms and grid points and plot them
+    atoms = mol.atom_coords()
+    grids = mf.grids.coords
+    helpers.plot_mesh_3d(atoms=atoms, grids=grids)
+    helpers.plot_mesh_2d(atoms=atoms, grids=grids, plane='yz')
 
 
 if __name__ == "__main__":
