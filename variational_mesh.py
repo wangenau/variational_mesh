@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import helpers
 import numpy as np
 from pyscf import dft, gto
 
@@ -14,11 +15,17 @@ def center_of_mass(coords, weights=None):
 
 
 def main():
-    mol = gto.M(atom='O 0, 0, 0; H 0, 1, 0; H 0, 0, 1', basis='sto-3g')
-    atm_coords = np.asarray(mol.atom_coords())
-    atm_masses = np.asarray(mol.atom_mass_list())
-    atm_com = center_of_mass(atm_coords, atm_masses)
-    print(atm_com)
+    mol = gto.M(atom='He 0, 0, 0', basis='sto-3g')
+    mf = dft.RKS(mol).set(xc='lda,pw')
+    mf.grids.level = 0
+    mf.kernel()
+
+    # get coordinates and weights and plot them
+    atoms = mol.atom_coords()
+    grids = mf.grids.coords
+    weights = mf.grids.weights
+    helpers.plot_mesh_3d(atoms=atoms, grids=grids, weights=weights)
+    helpers.plot_mesh_2d(atoms=atoms, grids=grids, weights=weights, plane='xy')
 
 
 if __name__ == "__main__":
