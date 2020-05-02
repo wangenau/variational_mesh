@@ -42,7 +42,7 @@ def plot_mesh_3d(atoms, grids=None, weights=None, cubes=None, **kwargs):
         if cubes.ndim == 2:
             cubes = np.array([cubes])
         for ic in cubes:
-            faces = hexagon_faces(ic)
+            faces = cube_faces(ic)
             # do not call with color argument, it will override alpha channel
             cube = Poly3DCollection(faces, alpha=0.1)
             cube.set_color('b')
@@ -95,7 +95,7 @@ def plot_mesh_2d(atoms, grids=None, weights=None, cubes=None, plane='xy'):
         if cubes.ndim == 2:
             cubes = np.array([cubes])
         for ic in cubes:
-            areas = hexagon_faces(ic)
+            areas = cube_faces(ic)
             for ia in areas:
                 area = np.vstack(ia)
                 plt.fill(area[:, ax[ax1]], area[:, ax[ax2]], alpha=0.1, c='b')
@@ -105,7 +105,7 @@ def plot_mesh_2d(atoms, grids=None, weights=None, cubes=None, plane='xy'):
     return
 
 
-def hexagon_faces(cube):
+def cube_faces(cube):
     '''Calculate corners of every face of an arbitrary parallelpiped.
 
     Args:
@@ -122,9 +122,9 @@ def hexagon_faces(cube):
                         points[2] + points[3] - points[0],
                         points[1] + points[2] + points[3] - 2 * points[0]))
     faces = [[points[0], points[2], points[4], points[1]],
+             [points[0], points[2], points[6], points[3]],
              [points[0], points[3], points[5], points[1]],
              [points[1], points[5], points[7], points[4]],
-             [points[2], points[6], points[3], points[0]],
-             [points[3], points[6], points[7], points[5]],
-             [points[4], points[2], points[6], points[7]]]
+             [points[2], points[6], points[7], points[4]],
+             [points[3], points[6], points[7], points[5]]]
     return faces
