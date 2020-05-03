@@ -13,7 +13,7 @@ SCF conv_tol_grad = None
 SCF max_cycles = 50
 direct_scf = True
 direct_scf_tol = 1e-13
-chkfile to save SCF result = /home/wanja/Documents/Studium/Master/4. Semester/Seminar Thesis/variational_mesh/getting_started/tmpvuo62t2c
+chkfile to save SCF result = /home/wanja/variational_mesh/getting_started/tmpvuo62t2c
 max_memory 4000 MB (current use 61 MB)
 XC functionals = lda,pw
 small_rho_cutoff = 1e-07
