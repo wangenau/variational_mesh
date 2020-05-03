@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def plot_mesh_3d(atoms, grids=None, weights=None, cubes=None, **kwargs):
+def plot_mesh_3d(atoms, grids=None, weights=2, cubes=None, **kwargs):
     '''Plot atoms, grid points and parallelpipeds in a 3d plot.
 
     Args:
@@ -21,8 +21,8 @@ def plot_mesh_3d(atoms, grids=None, weights=None, cubes=None, **kwargs):
         grids : array
             Contains coordinates of grid points.
 
-        weights : array or list
-            Contains weights of every grid point.
+        weights : array or list or scalar
+            Contains weight(s) of/for every grid point.
 
         cubes : array
             Contains coordinates of four points that span parallelpipeds.
@@ -33,8 +33,6 @@ def plot_mesh_3d(atoms, grids=None, weights=None, cubes=None, **kwargs):
     ax.scatter(atoms[:, 0], atoms[:, 1], atoms[:, 2], s=50, c='r')
     # plot mesh points (by their weights) if available
     if isinstance(grids, np.ndarray):
-        if not isinstance(weights, (list, np.ndarray)):
-            weights = 1
         ax.scatter(grids[:, 0], grids[:, 1], grids[:, 2], s=weights, c='g')
     # plot cubes if available
     if isinstance(cubes, np.ndarray):
@@ -55,7 +53,7 @@ def plot_mesh_3d(atoms, grids=None, weights=None, cubes=None, **kwargs):
     return
 
 
-def plot_mesh_2d(atoms, grids=None, weights=None, cubes=None, plane='xy'):
+def plot_mesh_2d(atoms, grids=None, weights=2, cubes=None, plane='xy'):
     '''Project atoms, grid points and parallelpipeds to a given plane.
 
     Args:
@@ -66,8 +64,8 @@ def plot_mesh_2d(atoms, grids=None, weights=None, cubes=None, plane='xy'):
         grids : array
             Contains coordinates of grid points.
 
-        weights : array or list
-            Contains weights of every grid point.
+        weights : array or list or scalar
+            Contains weight(s) of/for every grid point.
 
         cubes : array
             Contains coordinates of four points that span parallelpipeds.
@@ -86,8 +84,6 @@ def plot_mesh_2d(atoms, grids=None, weights=None, cubes=None, plane='xy'):
     plt.scatter(atoms[:, ax[ax1]], atoms[:, ax[ax2]], s=50, c='r')
     # project mesh points (by their weights) if available
     if isinstance(grids, np.ndarray):
-        if not isinstance(weights, (list, np.ndarray)):
-            weights = 1
         plt.scatter(grids[:, ax[ax1]], grids[:, ax[ax2]], s=weights, c='g')
     # project cubes if available
     if isinstance(cubes, np.ndarray):
