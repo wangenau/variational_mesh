@@ -28,7 +28,7 @@ def gen_partition_equidist(mol, atom_grids_tab, radii_adjust=None,
                     coords.append([x, y, z])
         coords = np.vstack(coords)
         coords += atm_coords[ia]
-        vol = (rad / (nsteps - 1))**3
+        vol = (2 * rad / nsteps)**3
         weights = np.full(len(coords), vol)
         coords_all.append(coords)
         weights_all.append(weights)
