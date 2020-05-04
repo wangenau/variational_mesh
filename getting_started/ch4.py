@@ -15,6 +15,7 @@ mf.xc = 'lda,pw'
 e_tot = []
 times = []
 for i in range(10):
+    print('Grid level: {}'.format(i))
     mf.grids.level = i
     start = time.time()
     mf.kernel()
@@ -31,4 +32,5 @@ ax1.plot(e_tot, color='blue')
 ax2 = ax1.twinx()
 ax2.set_ylabel('time [s]', color='orange')
 ax2.plot(times, color='orange')
+plt.tight_layout()
 plt.show()

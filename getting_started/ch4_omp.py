@@ -15,6 +15,7 @@ mf.grids.level = 9
 threads = range(1, 9)
 times = []
 for i in threads:
+    print('Threads: {}'.format(i))
     lib.num_threads(i)
     start = time.time()
     mf.kernel()
