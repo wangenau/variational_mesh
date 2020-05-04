@@ -2,6 +2,37 @@
 import helpers
 import numpy as np
 from pyscf import dft, gto
+from pyscf.lib.parameters import BOHR
+
+
+def universal_box(mol, d=5):
+    '''Calculate the universal box for a given molecule.
+
+    Args:
+        mol :
+            :class:`Mole` object
+
+    Kwargs:
+        d : scalar
+            Length that is added to both sides of the box in angstrom.
+
+    Returns:
+        Array with four coordinates that span the universal box.
+    '''
+    # calculate extra length for the box
+    d = 2 * d / BOHR
+    # calculate maximum length vectors and add d
+    atm_coords = mol.atom_coords()
+    xmax = [abs(max(atm_coords[:, 0]) - min(atm_coords[:, 0])) + d, 0, 0]
+    ymax = [0, abs(max(atm_coords[:, 1]) - min(atm_coords[:, 1])) + d, 0]
+    zmax = [0, 0, abs(max(atm_coords[:, 2]) - min(atm_coords[:, 2])) + d]
+    # calculate geometric center of mass of the molecule
+    atm_com = center_of_mass(atm_coords)
+    # calculate center of mass of the box
+    box_com = 0.5 * np.sum([xmax, ymax, zmax], 0)
+    # create universal box and shift center of mass to the molecules one
+    box = np.vstack(([0, 0, 0], xmax, ymax, zmax)) + (atm_com - box_com)
+    return box
 
 
 def center_of_mass(coords, weights=None):
@@ -10,22 +41,21 @@ def center_of_mass(coords, weights=None):
         weights = [1] * len(coords)
     com = np.full(len(coords[0]), 0)
     for i in range(len(coords)):
-        com += coords[i] * weights[i]
+        com = com + coords[i] * weights[i]
     return com / sum(weights)
 
 
 def main():
-    mol = gto.M(atom='He 0, 0, 0', basis='sto-3g')
+    mol = gto.M(atom='O 0, 0, 0; H 0, 1, 0; H 0, 0, 1', basis='sto-3g')
     mf = dft.RKS(mol).set(xc='lda,pw')
     mf.grids.level = 0
     mf.kernel()
 
-    # get coordinates and weights and plot them
     atoms = mol.atom_coords()
     grids = mf.grids.coords
-    weights = mf.grids.weights
-    helpers.plot_mesh_3d(atoms=atoms, grids=grids, weights=weights)
-    helpers.plot_mesh_2d(atoms=atoms, grids=grids, weights=weights, plane='xy')
+    cube = universal_box(mol)
+    helpers.plot_mesh_3d(atoms=atoms, grids=grids, cubes=cube)
+    helpers.plot_mesh_2d(atoms=atoms, grids=grids, cubes=cube, plane='yz')
 
 
 if __name__ == "__main__":
