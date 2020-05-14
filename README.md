@@ -13,9 +13,13 @@ numpy 1.16.4
 matplotlib 3.0.3
 ```
 
-## Author
+## Authors
 
-* **Wanja Schulze** - wanja-timm.schulze@student.tu-freiberg.de
+* **Wanja Schulze** - wangenau@protonmail.com
+* **Sebastian Schwalbe**
+* **Jens Kortus**
+* **Kai Trepte**
+* **Jakob Kraus**
 
 ## License
 
