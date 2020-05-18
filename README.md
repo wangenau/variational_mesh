@@ -15,11 +15,11 @@ matplotlib 3.0.3
 
 ## Authors
 
-* **Wanja Schulze** - wangenau@protonmail.com
-* **Sebastian Schwalbe**
-* **Jens Kortus**
-* **Kai Trepte**
-* **Jakob Kraus**
+* **Wanja Schulze** - Maintainer - wangenau@protonmail.com
+* **Jens Kortus** - Supervisor
+* **Sebastian Schwalbe** - Co-autor
+* **Jakob Kraus** - Co-autor
+* **Kai Trepte** - Co-autor
 
 ## License
 
