@@ -1,4 +1,3 @@
-import itertools
 import numpy as np
 from pyscf import dft, gto
 from pyscf.dft.gen_grid import gen_atomic_grids, _default_ang, _default_rad
@@ -112,7 +111,7 @@ def var_mesh(mol, error=1e-3):
     errors = np.asarray(errors)
     grids = np.asarray(grids)
     # generate every possibility to combine grids
-    combinations = list(itertools.product(*[range(il + 1)] * len(atoms)))
+    combinations = np.array(np.meshgrid(*[range(il + 1)] * len(atoms))).T.reshape(-1, len(atoms))
     min_levels = [il] * len(atoms)
     min_grids = sum(grids[-1])
     # search for the smallest amount of grid points that is under our error
