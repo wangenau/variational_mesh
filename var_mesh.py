@@ -25,8 +25,9 @@ def mesh_error(coords, weights, atom_coord, alphas):
                     np.exp(-ia * np.linalg.norm(coords[i])**2) * weights[i]
             val_ana = solutions[n](ia)
             # select the highest error
-            if abs(val_num - val_ana) > err_max:
-                err_max = abs(val_num - val_ana)
+            err = abs((val_num - val_ana) / val_num)
+            if err > err_max:
+                err_max = err
     return err_max
 
 
