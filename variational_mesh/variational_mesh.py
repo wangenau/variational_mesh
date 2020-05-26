@@ -109,9 +109,10 @@ def variational_mesh(mol, error=1e-3, radi_method=radi.treutler,
     mesh.build()
     coords = mesh.coords
     weights = mesh.weights
-    mesh_dict = gen_atomic_grids(mol, level=0, radi_method=radi_method, prune=prune)
+    mesh_dict = gen_atomic_grids(mol, level=0, radi_method=radi_method,
+                                 prune=prune)
 
-    # lists that contain the error/grid point number per atom type and grid level
+    # lists that contain the error/grid point amount per atom and grid level
     errors = [[]]
     grids = [[]]
     # save the index for every atom type with the maximum error in a dict
@@ -137,6 +138,9 @@ def variational_mesh(mol, error=1e-3, radi_method=radi.treutler,
 
     # go through every grid level until the error condition is met
     for il in range(1, 10):
+        if err_max < error:
+            log.info('Error condition met.')
+            break
         log.debug('Grid level: %d', il)
         err_max = 0
         tmp_errors = []
@@ -147,14 +151,15 @@ def variational_mesh(mol, error=1e-3, radi_method=radi.treutler,
         coords = mesh.coords
         weights = mesh.weights
         # generate atomic grids to get the number of grid points
-        mesh_dict = gen_atomic_grids(mol, level=il, radi_method=radi_method, prune=prune)
+        mesh_dict = gen_atomic_grids(mol, level=il, radi_method=radi_method,
+                                     prune=prune)
         for key in atoms:
             atom_coord = mol.atom_coord(atom_index[key])
             alphas = mol.bas_exp(atom_index[key])
             if len(alphas) > 2:
                 alphas = [min(alphas), max(alphas)]
             err = mesh_error(coords, weights, atom_coord, alphas)
-            # add error to max error, multiplied with the amount of atoms
+            # add error to maximum error, multiplied with the amount of atoms
             err *= atom_amount[key]
             err_max += err
             # append errors and  grid point amount per atom type
@@ -163,9 +168,6 @@ def variational_mesh(mol, error=1e-3, radi_method=radi.treutler,
         errors.append(tmp_errors)
         grids.append(tmp_grids)
         log.debug('Max. error: %f', err_max)
-        if err_max < error:
-            log.info('Error condition met.')
-            break
     if il == 9 and err_max > error:
         log.warn('Couldn\'t met error condition.')
         return mesh
@@ -175,8 +177,9 @@ def variational_mesh(mol, error=1e-3, radi_method=radi.treutler,
     grids = np.asarray(grids)
     log.debug('Grid point amount per atom and grid level:\n{}'.format(grids))
     # generate every possible combimiation to create grids
-    combinations = np.array(np.meshgrid(*[range(il + 1)] * len(atoms))).T.reshape(-1, len(atoms))
-    min_levels = [il] * len(atoms)
+    combinations = np.array(np.meshgrid(*[range(il)] * len(atoms)))
+    combinations = combinations.T.reshape(-1, len(atoms))
+    min_levels = [il - 1] * len(atoms)
     min_grids = sum(grids[-1])
     # search for the smallest amount of grid points that is under our error
     for ic in combinations:
