@@ -80,10 +80,11 @@ def variational_mesh(mol, error=1e-1, radi_method=radi.treutler,
             | None : to switch off grid pruning
 
     Returns:
-        Grid coordinates and weights arrays.
+        Grid object
     '''
     # initialize logger and shut up other loggers
-    log = logger.Logger(sys.stdout, mol.verbose)
+    verbose = mol.verbose
+    log = logger.Logger(sys.stdout, verbose)
     mol.verbose = 0
 
     # list of individual atoms
@@ -92,14 +93,14 @@ def variational_mesh(mol, error=1e-1, radi_method=radi.treutler,
         key = mol.atom_symbol(ia)
         atoms.append(key)
     atoms = list(set(atoms))
-    log.info('List of atoms: %s', atoms)
+    log.debug('List of atoms: %s', atoms)
 
     # save the amount of atoms in a dict
     atom_amount = {}
     for key in atoms:
         amount = sum(ia.count(key) for ia in mol.atom)
         atom_amount[key] = amount
-    log.info('Amount of atoms: %s', atom_amount)
+    log.debug('Amount of atoms: %s', atom_amount)
 
     # create an initial grid at the lowest grid level
     mesh = dft.Grids(mol)
@@ -139,7 +140,7 @@ def variational_mesh(mol, error=1e-1, radi_method=radi.treutler,
     # go through every grid level until the error condition is met
     for il in range(1, 10):
         if err_max < error:
-            log.info('Error condition met.')
+            log.debug('Error condition met.')
             break
         log.debug('Grid level: %d', il)
         err_max = 0
@@ -198,6 +199,8 @@ def variational_mesh(mol, error=1e-1, radi_method=radi.treutler,
         n_ang = _default_ang(gto.charge(atoms[ia]), min_levels[ia])
         mesh.atom_grid[atoms[ia]] = (n_rad, n_ang)
         log.info('Grid level for \'%s\': %d', atoms[ia], min_levels[ia])
+    # restore original verbose level
+    mol.verbose = verbose
     return mesh
 
 
