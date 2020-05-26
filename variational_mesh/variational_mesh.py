@@ -1,12 +1,32 @@
+#!/usr/bin/env python
 import numpy as np
+import sys
 from pyscf import dft, gto
 from pyscf.dft.gen_grid import gen_atomic_grids, _default_ang, _default_rad
+from pyscf.lib import logger
 
 
 def mesh_error(coords, weights, atom_coord, alphas):
-    '''Get the maximum mesh error for a few test functions.'''
-    # analytic solutions if we integrate (x*y*z)^n * exp(-a*r^2) dxdydz
-    # from -inf to inf for a specific n
+    '''Calculate the maximum grid error for test functions.
+
+    Args:
+        coords : array
+            Contains the coordinates of every grid point.
+
+        weights : array
+            Contains the weights of every grid point.
+
+        atom_coord : array
+            Contains the coordinates of the atom position.
+
+        alphas : list
+            Contains the coefficients of the atoms basis set.
+
+    Returns:
+        Maximum error in percent from test function integrations.
+    '''
+    # analytic solutions for the integration of exp(-a*r^2)*(x*y*z)^n from
+    # -inf to inf for different n
     solutions = {
         0: lambda ia: np.sqrt(np.pi / ia)**3,
         1: lambda ia: 0,
@@ -17,45 +37,66 @@ def mesh_error(coords, weights, atom_coord, alphas):
     coords = coords - atom_coord
     err_max = 0
     for ia in alphas:
-        for n in range(3):
-            # numerical integration of (x*y*z)^n * exp(-a*r^2)
+        for n in range(len(solutions)):
+            # numerical integrate exp(-a*r^2)*(x*y*z)^n
             val_num = 0
             for i in range(len(coords)):
                 val_num += np.prod(coords[i]**n) * \
                     np.exp(-ia * np.linalg.norm(coords[i])**2) * weights[i]
+            # select the highest error (in percent)
             val_ana = solutions[n](ia)
-            # select the highest error
-            err = abs((val_num - val_ana) / val_num)
+            err = abs(val_num - val_ana)
             if err > err_max:
                 err_max = err
     return err_max
 
 
-def var_mesh(mol, error=1e-3):
-    '''Get a grid level whose error is smaller than a preset.'''
-    # list of atom types
+def variational_mesh(mol, error=1e-3):
+    '''Minimize grid point amount for a given maximum error for test functions.
+
+    Args:
+        mol :
+            Mole object
+
+    Kwargs:
+        error : scalar
+            Maximum error for test functions in percent.
+
+    Returns:
+        Grid coordinates and weights arrays.
+    '''
+    # initialize logger and shut up other loggers
+    log = logger.Logger(sys.stdout, mol.verbose)
+    mol.verbose = 0
+
+    # list of individual atoms
     atoms = []
     for ia in range(len(mol.atom)):
         key = mol.atom_symbol(ia)
         atoms.append(key)
     atoms = list(set(atoms))
-    print('List of atoms: {}\n'.format(atoms))
+    log.info('List of atoms: %s', atoms)
 
     # save the amount of atoms in a dict
     atom_amount = {}
     for key in atoms:
         amount = sum(ia.count(key) for ia in mol.atom)
         atom_amount[key] = amount
-    print('Amount of atoms: {}\n'.format(atom_amount))
+    log.info('Amount of atoms: %s', atom_amount)
 
-    # create an initial mesh grid
+    # create an initial grid at the lowest grid level
     mesh = dft.Grids(mol)
     mesh.level = 0
     mesh.build()
     coords = mesh.coords
     weights = mesh.weights
+    mesh_dict = gen_atomic_grids(mol, level=0)
 
+    # lists that contain the error/grid point number per atom type and grid level
+    errors = [[]]
+    grids = [[]]
     # save the index for every atom type with the maximum error in a dict
+    # also run the first grid level explicitly and save the results
     atom_index = {}
     for key in atoms:
         err_max = 0
@@ -69,14 +110,15 @@ def var_mesh(mol, error=1e-3):
                 if err > err_max:
                     err_max = err
                     atom_index[key] = ia
-    print('Index for atom type: {}\n'.format(atom_index))
+        errors[0].append(atom_amount[key] * err_max)
+        grids[0].append(atom_amount[key] * len(mesh_dict[key][0]))
+    log.debug('Index per atom type: %s', atom_index)
+    log.debug('Grid level: 0')
+    log.debug('Max. error: %f', sum(errors[0]))
 
-    # lists that contain the error/#grid points per atom type and grid level
-    errors = []
-    grids = []
-    # start loop to go through every grid level
-    for il in range(10):
-        print('Grid level: {}'.format(il))
+    # go through every grid level until the error condition is met
+    for il in range(1, 10):
+        log.debug('Grid level: %d', il)
         err_max = 0
         tmp_errors = []
         tmp_grids = []
@@ -96,22 +138,24 @@ def var_mesh(mol, error=1e-3):
             # add error to max error, multiplied with the amount of atoms
             err *= atom_amount[key]
             err_max += err
-            # append errors and #grid points per atom type
+            # append errors and  grid point amount per atom type
             tmp_errors.append(err)
             tmp_grids.append(atom_amount[key] * len(mesh_dict[key][0]))
         errors.append(tmp_errors)
         grids.append(tmp_grids)
-        print('Max. error: {}'.format(err_max))
+        log.debug('Max. error: %f', err_max)
         if err_max < error:
-            print('Error condition met.\n')
+            log.info('Error condition met.')
             break
     if il == 9 and err_max > error:
-        print('Couldn\'t met error condition.\n')
+        log.warn('Couldn\'t met error condition.')
         return mesh
 
     errors = np.asarray(errors)
+    log.debug('Errors per atom and grid level:\n{}'.format(errors))
     grids = np.asarray(grids)
-    # generate every possibility to combine grids
+    log.debug('Grid point amount per atom and grid level:\n{}'.format(grids))
+    # generate every possible combimiation to create grids
     combinations = np.array(np.meshgrid(*[range(il + 1)] * len(atoms))).T.reshape(-1, len(atoms))
     min_levels = [il] * len(atoms)
     min_grids = sum(grids[-1])
@@ -129,20 +173,8 @@ def var_mesh(mol, error=1e-3):
         n_rad = _default_rad(gto.charge(atoms[ia]), min_levels[ia])
         n_ang = _default_ang(gto.charge(atoms[ia]), min_levels[ia])
         mesh.atom_grid[atoms[ia]] = (n_rad, n_ang)
-        print('Grid level for \'{}\': {}'.format(atoms[ia], min_levels[ia]))
+        log.info('Grid level for \'%s\': %d', atoms[ia], min_levels[ia])
     mesh.build()
-
-    # final error check
-    # coords = mesh.coords
-    # weights = mesh.weights
-    # err = 0
-    # for ia in range(mol.natm):
-    #     atom_coord = mol.atom_coord(ia)
-    #     alphas = mol.bas_exp(ia)
-    #     if len(alphas) > 2:
-    #         alphas = [min(alphas), max(alphas)]
-    #     err_max += mesh_error(coords, weights, atom_coord, alphas)
-    # print('Max. final error: {}'.format(err_max))
     return mesh
 
 
@@ -153,5 +185,6 @@ if __name__ == "__main__":
         ['O', (-1.162, 0, 0)],
         ['O', ( 1.162, 0, 0)]]
     mol.build()
-    g = var_mesh(mol=mol, error=1e-3)
-    print(g.coords.shape)
+    mol.verbose = 5
+    mesh = variational_mesh(mol=mol, error=1e-3)
+    print(mesh.coords.shape)
