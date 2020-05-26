@@ -2,7 +2,9 @@
 import numpy as np
 import sys
 from pyscf import dft, gto
-from pyscf.dft.gen_grid import gen_atomic_grids, _default_ang, _default_rad
+from pyscf.dft import radi
+from pyscf.dft.gen_grid import *
+from pyscf.dft.gen_grid import _default_ang, _default_rad
 from pyscf.lib import logger
 
 
@@ -51,7 +53,8 @@ def mesh_error(coords, weights, atom_coord, alphas):
     return err_max
 
 
-def variational_mesh(mol, error=1e-3):
+def variational_mesh(mol, error=1e-3, radi_method=radi.treutler,
+                     prune=nwchem_prune):
     '''Minimize grid point amount for a given maximum error for test functions.
 
     Args:
@@ -61,6 +64,20 @@ def variational_mesh(mol, error=1e-3):
     Kwargs:
         error : scalar
             Maximum error for test functions in percent.
+
+        radi_method : function(n) => (rad_grids, rad_weights)
+            scheme for radial grids, can be one of
+            | radi.treutler  (default)
+            | radi.delley
+            | radi.mura_knowles
+            | radi.gauss_chebyshev
+
+        prune : function(nuc, rad_grids, n_ang) => list_n_ang_for_each_rad_grid
+            scheme to reduce number of grids, can be one of
+            | gen_grid.nwchem_prune  (default)
+            | gen_grid.sg1_prune
+            | gen_grid.treutler_prune
+            | None : to switch off grid pruning
 
     Returns:
         Grid coordinates and weights arrays.
@@ -87,10 +104,12 @@ def variational_mesh(mol, error=1e-3):
     # create an initial grid at the lowest grid level
     mesh = dft.Grids(mol)
     mesh.level = 0
+    mesh.radi_method = radi_method
+    mesh.prune = prune
     mesh.build()
     coords = mesh.coords
     weights = mesh.weights
-    mesh_dict = gen_atomic_grids(mol, level=0)
+    mesh_dict = gen_atomic_grids(mol, level=0, radi_method=radi_method, prune=prune)
 
     # lists that contain the error/grid point number per atom type and grid level
     errors = [[]]
@@ -128,7 +147,7 @@ def variational_mesh(mol, error=1e-3):
         coords = mesh.coords
         weights = mesh.weights
         # generate atomic grids to get the number of grid points
-        mesh_dict = gen_atomic_grids(mol, level=il)
+        mesh_dict = gen_atomic_grids(mol, level=il, radi_method=radi_method, prune=prune)
         for key in atoms:
             atom_coord = mol.atom_coord(atom_index[key])
             alphas = mol.bas_exp(atom_index[key])
@@ -169,6 +188,8 @@ def variational_mesh(mol, error=1e-3):
 
     # build the final grid with the found atomic grid levels
     mesh = dft.Grids(mol)
+    mesh.radi_method = radi_method
+    mesh.prune = prune
     for ia in range(len(atoms)):
         n_rad = _default_rad(gto.charge(atoms[ia]), min_levels[ia])
         n_ang = _default_ang(gto.charge(atoms[ia]), min_levels[ia])
