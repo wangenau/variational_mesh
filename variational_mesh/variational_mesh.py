@@ -133,9 +133,10 @@ def variational_mesh(mol, error=1e-3, radi_method=radi.treutler,
                     atom_index[key] = ia
         errors[0].append(atom_amount[key] * err_max)
         grids[0].append(atom_amount[key] * len(mesh_dict[key][0]))
+    err_max = sum(errors[0])
     log.debug('Index per atom type: %s', atom_index)
     log.debug('Grid level: 0')
-    log.debug('Max. error: %f', sum(errors[0]))
+    log.debug('Max. error: %f', err_max)
 
     # go through every grid level until the error condition is met
     for il in range(1, 10):
