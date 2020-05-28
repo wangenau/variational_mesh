@@ -31,7 +31,7 @@ def mesh_error(coords, weights, atom_coord, alphas):
     # -inf to inf for different n
     solutions = {
         0: lambda ia: np.sqrt(np.pi / ia)**3,
-        #1: lambda ia: 0,
+        1: lambda ia: 0,
         2: lambda ia: np.sqrt(np.pi / (4 * ia**3))**3
     }
 
@@ -47,13 +47,13 @@ def mesh_error(coords, weights, atom_coord, alphas):
                     np.exp(-ia * np.linalg.norm(coords[i])**2) * weights[i]
             # select the highest error (in percent)
             val_ana = solutions[n](ia)
-            err = 100 * abs((val_num - val_ana) / val_ana)
+            err = abs(val_num - val_ana)
             if err > err_max:
                 err_max = err
     return err_max
 
 
-def variational_mesh(mol, error=1e-1, radi_method=radi.treutler,
+def variational_mesh(mol, error=1e-3, radi_method=radi.treutler,
                      prune=nwchem_prune):
     '''Minimize grid point amount for a given maximum error for test functions.
 
@@ -74,9 +74,9 @@ def variational_mesh(mol, error=1e-1, radi_method=radi.treutler,
 
         prune : function(nuc, rad_grids, n_ang) => list_n_ang_for_each_rad_grid
             scheme to reduce number of grids, can be one of
-            | nwchem_prune  (default)
-            | sg1_prune
-            | treutler_prune
+            | gen_grid.nwchem_prune  (default)
+            | gen_grid.sg1_prune
+            | gen_grid.treutler_prune
             | None : to switch off grid pruning
 
     Returns:
