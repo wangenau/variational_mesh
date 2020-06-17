@@ -13,7 +13,7 @@ setup(
     author='Wanja Schulze',
     author_email='wangenau@protonmail.com',
     license='APACHE2.0',
-    packages=find_packages(),
+    packages=find_packages(exclude=('tests')),
     install_requires=['matplotlib', 'numpy', 'pyscf==1.7.1'],
     python_requires='>=3',
     include_package_data=True,

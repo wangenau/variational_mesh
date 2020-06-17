@@ -52,8 +52,8 @@ def mesh_error(coords, weights, atom_coord, alphas):
     return err_max
 
 
-def gen_mesh(mol, error=1e-3, radi_method=radi.treutler,
-                     prune=nwchem_prune, precise_error=False):
+def gen_mesh(mol, error=1e-3, radi_method=radi.treutler, prune=nwchem_prune,
+             precise_error=False):
     '''Minimize grid point amount for a given maximum error for test functions.
 
     Args:
@@ -91,7 +91,7 @@ def gen_mesh(mol, error=1e-3, radi_method=radi.treutler,
 
     # list of individual atoms
     atoms = []
-    for ia in range(len(mol.atom)):
+    for ia in range(mol.natm):
         key = mol.atom_symbol(ia)
         atoms.append(key)
     atoms = list(set(atoms))
