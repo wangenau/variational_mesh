@@ -31,10 +31,9 @@ def mesh_error(coords, weights, atom_coord, alphas):
     # -inf to inf for different n
     solutions = {
         0: lambda ia: np.sqrt(np.pi / ia)**3,
-        1: lambda ia: 0,
+        # 1: lambda ia: 0,
         2: lambda ia: np.sqrt(np.pi / (4 * ia**3))**3
     }
-
     # shift atom position to the origin
     coords = coords - atom_coord
     err_max = 0
@@ -53,8 +52,8 @@ def mesh_error(coords, weights, atom_coord, alphas):
     return err_max
 
 
-def variational_mesh(mol, error=1e-3, radi_method=radi.treutler,
-                     prune=nwchem_prune):
+def gen_mesh(mol, error=1e-3, radi_method=radi.treutler,
+                     prune=nwchem_prune, precise_error=False):
     '''Minimize grid point amount for a given maximum error for test functions.
 
     Args:
@@ -78,6 +77,9 @@ def variational_mesh(mol, error=1e-3, radi_method=radi.treutler,
             | gen_grid.sg1_prune
             | gen_grid.treutler_prune
             | None : to switch off grid pruning
+
+        precise_error : Boolean
+            Perform an extra error aclculation at the end.
 
     Returns:
         Grid object
@@ -111,7 +113,7 @@ def variational_mesh(mol, error=1e-3, radi_method=radi.treutler,
     coords = mesh.coords
     weights = mesh.weights
     mesh_dict = gen_atomic_grids(mol, level=0, radi_method=radi_method,
-                                 prune=prune)
+                                 prune=None)
 
     # lists that contain the error/grid point amount per atom and grid level
     errors = [[]]
@@ -124,9 +126,7 @@ def variational_mesh(mol, error=1e-3, radi_method=radi.treutler,
         for ia in range(mol.natm):
             if key == mol.atom_symbol(ia):
                 atom_coord = mol.atom_coord(ia)
-                alphas = mol.bas_exp(ia)
-                if len(alphas) > 2:
-                    alphas = [min(alphas), max(alphas)]
+                alphas = get_alphas(mol, mol.atom_symbol(ia))
                 err = mesh_error(coords, weights, atom_coord, alphas)
                 if err > err_max:
                     err_max = err
@@ -154,12 +154,10 @@ def variational_mesh(mol, error=1e-3, radi_method=radi.treutler,
         weights = mesh.weights
         # generate atomic grids to get the number of grid points
         mesh_dict = gen_atomic_grids(mol, level=il, radi_method=radi_method,
-                                     prune=prune)
+                                     prune=None)
         for key in atoms:
             atom_coord = mol.atom_coord(atom_index[key])
-            alphas = mol.bas_exp(atom_index[key])
-            if len(alphas) > 2:
-                alphas = [min(alphas), max(alphas)]
+            alphas = get_alphas(mol, key)
             err = mesh_error(coords, weights, atom_coord, alphas)
             # add error to maximum error, multiplied with the amount of atoms
             err *= atom_amount[key]
@@ -169,7 +167,7 @@ def variational_mesh(mol, error=1e-3, radi_method=radi.treutler,
             tmp_grids.append(atom_amount[key] * len(mesh_dict[key][0]))
         errors.append(tmp_errors)
         grids.append(tmp_grids)
-        log.debug('Max. error: %f', err_max)
+        log.debug('Max. error: %.5E', err_max)
     if il == 9 and err_max > error:
         log.warn('Couldn\'t met error condition.')
         return mesh
@@ -200,9 +198,35 @@ def variational_mesh(mol, error=1e-3, radi_method=radi.treutler,
         n_ang = _default_ang(gto.charge(atoms[ia]), min_levels[ia])
         mesh.atom_grid[atoms[ia]] = (n_rad, n_ang)
         log.info('Grid level for \'%s\': %d', atoms[ia], min_levels[ia])
+    mesh.build()
+
+    if precise_error:
+        coords = mesh.coords
+        weights = mesh.weights
+        final_err = 0
+        for ia in range(mol.natm):
+            atom_coord = mol.atom_coord(ia)
+            alphas = get_alphas(mol, mol.atom_symbol(ia))
+            final_err += mesh_error(coords, weights, atom_coord, alphas)
+        log.info('Total error: %.5E', final_err)
+
     # restore original verbose level
     mol.verbose = verbose
     return mesh
+
+
+def get_alphas(mol, symb):
+    '''Get the minimal and maximal exponent of the basis.'''
+    alphas = []
+    basis = mol._basis[symb]
+    # append the first and the last exponent for every l (they are sorted)
+    for i in basis:
+        alphas.append(i[1][0])
+        if len(i) > 2:
+            alphas.append(i[-1][0])
+    if len(alphas) > 2:
+        alphas = [min(alphas), max(alphas)]
+    return alphas
 
 
 if __name__ == "__main__":
@@ -211,8 +235,8 @@ if __name__ == "__main__":
         ['C', ( 0    , 0, 0)],
         ['O', (-1.162, 0, 0)],
         ['O', ( 1.162, 0, 0)]]
+    mol.basis = 'sto-3g'
     mol.build()
     mol.verbose = 5
-    mesh = variational_mesh(mol=mol, error=1e-3)
-    mesh.build()
+    mesh = gen_mesh(mol=mol, error=1e-4, precise_error=True)
     print(mesh.coords.shape)
