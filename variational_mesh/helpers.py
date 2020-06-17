@@ -6,16 +6,27 @@ different meshes, but are not necessary needed to generate them.
 
 from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
+from pyscf.dft.radi import BRAGG_RADII
+from pyscf.gto import charge
 import matplotlib.pyplot as plt
 import numpy as np
 
+# Source: https://en.wikipedia.org/wiki/CPK_coloring
+cpk_colors = {
+    'H': 'w',
+    'C': 'k',
+    'N': 'b',
+    'O': 'r',
+    'S': 'y'
+}
 
-def plot_mesh_3d(atoms, grids=None, weights=2, cubes=None, **kwargs):
+
+def plot_mesh_3d(mol, grids=None, weights=2, cubes=None, **kwargs):
     '''Plot atoms, grid points and parallelpipeds in a 3d plot.
 
     Args:
-        atoms : array
-            Contains coordinates of atom positions.
+        mol :
+            Mole object
 
     Kwargs:
         grids : array
@@ -27,10 +38,17 @@ def plot_mesh_3d(atoms, grids=None, weights=2, cubes=None, **kwargs):
         cubes : array
             Contains coordinates of four points that span parallelpipeds.
     '''
+    # generate information to plot the atoms
+    coords = mol.atom_coords()
+    colors = []
+    radii = []
+    for ia in range(mol.natm):
+        colors.append(cpk_colors.get(mol.atom_symbol(ia), 'magenta'))
+        radii.append(BRAGG_RADII[charge(mol.atom_symbol(ia))] * 100)
     fig = plt.figure()
     ax = fig.add_subplot(111, projection=Axes3D.name)
     # plot atoms
-    ax.scatter(atoms[:, 0], atoms[:, 1], atoms[:, 2], s=50, c='r')
+    ax.scatter(coords[:, 0], coords[:, 1], coords[:, 2], s=radii, c=colors, edgecolors='k')
     # plot mesh points (by their weights) if available
     if isinstance(grids, np.ndarray):
         ax.scatter(grids[:, 0], grids[:, 1], grids[:, 2], s=weights, c='g')
@@ -53,12 +71,12 @@ def plot_mesh_3d(atoms, grids=None, weights=2, cubes=None, **kwargs):
     return
 
 
-def plot_mesh_2d(atoms, grids=None, weights=2, cubes=None, plane='xy'):
+def plot_mesh_2d(mol, grids=None, weights=2, cubes=None, plane='xy'):
     '''Project atoms, grid points and parallelpipeds to a given plane.
 
     Args:
-        atoms : array
-            Contains coordinates of atom positions.
+        mol :
+            Mole object
 
     Kwargs:
         grids : array
@@ -73,6 +91,13 @@ def plot_mesh_2d(atoms, grids=None, weights=2, cubes=None, plane='xy'):
         plane : string
             Contains the plane to project on to.
     '''
+    # generate information to plot the atoms
+    coords = mol.atom_coords()
+    colors = []
+    radii = []
+    for ia in range(mol.natm):
+        colors.append(cpk_colors.get(mol.atom_symbol(ia), 'magenta'))
+        radii.append(BRAGG_RADII[charge(mol.atom_symbol(ia))] * 100)
     # dictionary to map input axes to their coordinates
     ax = {
         'x': 0,
@@ -81,7 +106,7 @@ def plot_mesh_2d(atoms, grids=None, weights=2, cubes=None, plane='xy'):
     }
     ax1, ax2 = list(plane.lower())
     # project atoms
-    plt.scatter(atoms[:, ax[ax1]], atoms[:, ax[ax2]], s=50, c='r')
+    plt.scatter(coords[:, ax[ax1]], coords[:, ax[ax2]], s=radii, c=colors, edgecolors='k')
     # project mesh points (by their weights) if available
     if isinstance(grids, np.ndarray):
         plt.scatter(grids[:, ax[ax1]], grids[:, ax[ax2]], s=weights, c='g')
