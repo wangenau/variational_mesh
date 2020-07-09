@@ -1,12 +1,12 @@
-from pyscf import gto
-from variational_mesh.gen_mesh import *
+#!/usr/bin/env python
+'''
+Minimal example to generate a variational mesh.
+'''
 
-mol = gto.Mole()
-mol.atom = [
-    ['O', ( 0    , 0, 0.11779)],
-    ['H', ( 0, 0.75545, -0.47116)],
-    ['H', ( 0, -0.75545, -0.47116)]]
-mol.build()
-mol.verbose = 5
-mesh = gen_mesh(mol=mol, error=1e-2)
-print(mesh.coords.shape)
+from pyscf import dft, gto
+from var_mesh import gen_mesh
+
+mol = gto.M(atom='O 0 0 0; H 0 1 0; H 0 0 1')
+mf = dft.RKS(mol)
+mf.grids = gen_mesh(mf.grids, 1e-5)
+mf.kernel()

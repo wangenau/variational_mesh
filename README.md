@@ -8,8 +8,8 @@ A working installation of PySCF is necessary.
 The following dependency versions have been used for testing:
 
 ```
-pyscf 1.7.1
-numpy 1.16.4
+pyscf 1.7.3
+numpy 1.18.5
 matplotlib 3.0.3
 ```
 
