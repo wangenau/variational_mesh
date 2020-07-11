@@ -3,11 +3,11 @@
 Generate mesh errors for an atom with standard PySCF grid levels.
 '''
 
+import matplotlib.pyplot as plt
 from pyscf import dft, gto
 from var_mesh.gen_mesh import mesh_error
-import matplotlib.pyplot as plt
 
-mol = gto.M(atom='C 0 0 0', verbose=0)
+mol = gto.M(atom='O 0 0 0', verbose=0)
 mf = dft.RKS(mol)
 mf.max_cycle = 0
 
@@ -22,7 +22,7 @@ for i in range(10):
     print('Mesh error: %.5E' % error)
 
 plt.plot(range(10), errors)
-plt.yscale('log')
 plt.xlabel('Grid level')
 plt.ylabel('Mesh error')
+plt.yscale('log')
 plt.show()
