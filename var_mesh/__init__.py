@@ -1,3 +1,3 @@
-from var_mesh.gen_mesh import gen_mesh
+from var_mesh.gen_mesh import opt_mesh
 
-__all__ = ['gen_mesh']
+__all__ = ['opt_mesh']
