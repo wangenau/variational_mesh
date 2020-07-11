@@ -58,16 +58,16 @@ def opt_mesh(mesh, thres):
     # Enter coarse grid search
     types = atom_type(mesh.mol)
     steps = get_steps()
-    log.note('Start coarse grid search.')
+    log.info('Start coarse grid search.')
     # Go through grid and raise atom grids for every atom
     for i in range(steps):
         mf.grids = build_mesh(mf.grids, types, [i] * len(types))
         mf.kernel()
         error = mesh_error(mf)
-        log.info('[%d/%d] Error: %.5E', i, steps - 1, error)
+        log.debug('[%d/%d] Error: %.5E', i, steps - 1, error)
         if error < thres:
-            log.note('Error condition met.')
-            log.info('Level: %d', i)
+            log.info('Error condition met.')
+            log.debug('Level: %d', i)
             break
 
     if error >= thres:
@@ -78,27 +78,27 @@ def opt_mesh(mesh, thres):
         level = i
         combs = get_combs(mesh.mol, level)
         steps = len(combs)
-        log.note('Start fine grid search.')
+        log.info('Start fine grid search.')
         # Go through every possible grid level combination
         for i in range(steps):
             mf.grids = build_mesh(mf.grids, types, combs[i])
             mf.kernel()
             error = mesh_error(mf)
-            log.info('[%d/%d] Error: %.5E', i, steps - 1, error)
+            log.debug('[%d/%d] Error: %.5E', i, steps - 1, error)
             if error < thres:
-                log.note('Error condition met.')
-                log.info('Levels per atom type:')
+                log.info('Error condition met.')
+                log.debug('Levels per atom type:')
                 for j in range(len(types)):
-                    log.info('\'%s\': %s', types[j], combs[i][j])
+                    log.debug('\'%s\': %s', types[j], combs[i][j])
                 break
         if error >= thres:
-            log.note('Couldn\'t enhance the mesh anymore.')
-            log.info('Use level %d for every atom type instead.', level)
+            log.info('Couldn\'t enhance the mesh anymore.')
+            log.debug('Use level %d for every atom type instead.', level)
             mf.grids = build_mesh(mf.grids, types, [level] * len(types))
 
-    log.note('Atom grids:\n%s', mesh.atom_grid)
+    log.note('Atom grids: %s', mf.grids.atom_grid)
     # Restore original verbose level
-    mf.mol.verbose = verbose
+    mf.grids.verbose = verbose
     return mf.grids
 
 
