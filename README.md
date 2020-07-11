@@ -1,6 +1,8 @@
 # Variational Mesh
+[![license](https://img.shields.io/badge/license-APACHE2-green)](https://www.apache.org/licenses/LICENSE-2.0)
+[![language](https://img.shields.io/badge/language-Python3-blue)](https://www.python.org/)
 
-Python3 implementation of the variational mesh to use it with PySCF/PyFLOSIC.
+A variational mesh implementation in Python3 to use it with PySCF/PyFLOSIC.
 
 ## Requirements
 
@@ -8,9 +10,9 @@ A working installation of PySCF is necessary.
 The following dependency versions have been used for testing:
 
 ```
-pyscf 1.7.3
-numpy 1.18.5
 matplotlib 3.0.3
+numpy 1.18.5
+pyscf 1.7.3
 ```
 
 ## Authors
