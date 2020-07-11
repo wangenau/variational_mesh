@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 '''
-Generate total energies error and mesh errors.
+Time the mesh optimization and SCF calculation.
 '''
 
 import matplotlib.pyplot as plt
