@@ -15,7 +15,7 @@ setup(
     license='APACHE2.0',
     packages=find_packages(exclude=('tests')),
     install_requires=['matplotlib', 'numpy', 'pyscf==1.7.3'],
-    python_requires='>=3',
+    python_requires='>=2.7 ,>=3.5',
     include_package_data=True,
     zip_safe=False,
 )
