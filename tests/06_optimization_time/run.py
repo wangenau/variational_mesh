@@ -5,7 +5,7 @@ Time the mesh optimization process for different errors.
 
 import matplotlib.pyplot as plt
 import numpy as np
-import time
+import timeit
 from pyscf import dft, gto
 from var_mesh import opt_mesh
 
@@ -15,9 +15,9 @@ mesh = dft.Grids(mol)
 errors = 10.0**(np.arange(0, -10, -1))
 times = []
 for i in range(len(errors)):
-    start = time.time()
+    start = timeit.default_timer()
     mesh = opt_mesh(mesh, errors[i])
-    end = time.time()
+    end = timeit.default_timer()
     times.append(end - start)
     print('[%d/%d] %.5Es' % (i + 1, len(errors), end - start))
 

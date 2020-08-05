@@ -5,7 +5,7 @@ Time the mesh optimization and SCF calculation.
 
 import matplotlib.pyplot as plt
 import numpy as np
-import time
+import timeit
 from pyscf import dft, gto
 from var_mesh import opt_mesh
 
@@ -16,11 +16,11 @@ errors = 10.0**(np.arange(0, -10, -1))
 time_mesh = []
 time_etot = []
 for i in range(len(errors)):
-    t1 = time.time()
+    t1 = timeit.default_timer()
     mf.grids = opt_mesh(mf.grids, errors[i])
-    t2 = time.time()
+    t2 = timeit.default_timer()
     mf.kernel()
-    t3 = time.time()
+    t3 = timeit.default_timer()
     time_mesh.append(t2 - t1)
     time_etot.append(t3 - t2)
     print('[%d/%d] %.5Es' % (i + 1, len(errors), t3 - t1))
