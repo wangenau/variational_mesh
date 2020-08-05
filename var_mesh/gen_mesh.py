@@ -172,6 +172,8 @@ def mesh_error(mf):
     '''Calculate the density error per electron on a mesh.'''
     mol = mf.mol
     dm = mf.make_rdm1()
+    if dm.ndim == 3:
+        dm = dm[0]
     rho = mf._numint.get_rho(mol, dm, mf.grids, mf.max_memory)
     n = numpy.dot(rho, mf.grids.weights)
     return abs(mol.nelectron - n) / mol.nelectron
