@@ -30,7 +30,7 @@ def get_ang(symb, level):
         return ang[symb][level]
 
 
-def opt_mesh(mesh, thres):
+def opt_mesh(mesh, thres, precise=True):
     '''Minimize grid points for a given error threshold for the initial density.
 
     Args:
@@ -39,6 +39,11 @@ def opt_mesh(mesh, thres):
 
         thres : scalar
             Maximum error of the initial density (normalized at one electron).
+
+    Kwargs:
+        precise : bool
+            Use a precise search to find a better mesh that fits the threshold.
+            Turned on by default (slower).
 
     Returns:
         Grid object
@@ -64,16 +69,16 @@ def opt_mesh(mesh, thres):
         mf.grids = build_mesh(mf.grids, types, [i] * len(types))
         mf.kernel()
         error = mesh_error(mf)
-        log.debug('[%d/%d] Error: %.5E', i, steps - 1, error)
+        log.debug('[%d/%d] Error = %.5E', i, steps - 1, error)
         if error < thres:
             log.info('Error condition met.')
-            log.debug('Level: %d', i)
+            log.debug('Level = %d', i)
             break
 
     if error >= thres:
         log.warn('Couldn\'t met error condition.\n'
                  'Use the largest grid level instead.')
-    else:
+    elif precise:
         # Enter fine grid search
         level = i
         combs = get_combs(mesh.mol, level)
@@ -84,19 +89,19 @@ def opt_mesh(mesh, thres):
             mf.grids = build_mesh(mf.grids, types, combs[i])
             mf.kernel()
             error = mesh_error(mf)
-            log.debug('[%d/%d] Error: %.5E', i, steps - 1, error)
+            log.debug('[%d/%d] Error = %.5E', i, steps - 1, error)
             if error < thres:
                 log.info('Error condition met.')
                 log.debug('Levels per atom type:')
                 for j in range(len(types)):
-                    log.debug('\'%s\': %s', types[j], combs[i][j])
+                    log.debug('\'%s\' = %s', types[j], combs[i][j])
                 break
         if error >= thres:
             log.info('Couldn\'t enhance the mesh anymore.')
             log.debug('Use level %d for every atom type instead.', level)
             mf.grids = build_mesh(mf.grids, types, [level] * len(types))
 
-    log.note('Atom grids: %s', mf.grids.atom_grid)
+    log.note('Atom grids = %s', mf.grids.atom_grid)
     # Restore original verbose level
     mf.grids.verbose = verbose
     return mf.grids
