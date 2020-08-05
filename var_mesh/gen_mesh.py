@@ -69,7 +69,7 @@ def opt_mesh(mesh, thres, precise=True):
         mf.grids = build_mesh(mf.grids, types, [i] * len(types))
         mf.kernel()
         error = mesh_error(mf)
-        log.debug('[%d/%d] Error = %.5E', i, steps - 1, error)
+        log.debug('[%d/%d] Error = %.5E', i + 1, steps, error)
         if error < thres:
             log.info('Error condition met.')
             log.debug('Level = %d', i)
@@ -89,7 +89,7 @@ def opt_mesh(mesh, thres, precise=True):
             mf.grids = build_mesh(mf.grids, types, combs[i])
             mf.kernel()
             error = mesh_error(mf)
-            log.debug('[%d/%d] Error = %.5E', i, steps - 1, error)
+            log.debug('[%d/%d] Error = %.5E', i + 1, steps, error)
             if error < thres:
                 log.info('Error condition met.')
                 log.debug('Levels per atom type:')
