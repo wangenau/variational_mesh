@@ -2,6 +2,9 @@
 __pycache__/
 *.py[cod]
 
-# Distribution / packaging
+# Distribution / packaging files
 dist/
 *.egg-info/
+
+# PySCF temporary files
+tmp*
