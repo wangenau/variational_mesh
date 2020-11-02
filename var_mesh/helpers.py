@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 '''
-This file contains functions that may help to visualize, debug, or test
-different meshes, but are not necessary to generate them.
+This file contains functions to visualize different meshes, but are not
+necessary to generate them.
 '''
 
 import matplotlib.pyplot as plt
@@ -37,7 +37,7 @@ def plot_mesh_3d(mesh, weight=True, **kwargs):
     weights = 2
     if weight:
         weights = abs(mesh.weights)
-    # Get the atom colors and radii (scale with 100 so it looks good)
+    # Get the atom colors and radii (scale with 100 to make it look good)
     colors = []
     radii = []
     for ia in range(mol.natm):
@@ -50,9 +50,9 @@ def plot_mesh_3d(mesh, weight=True, **kwargs):
                edgecolors='k', depthshade=0)
     # Plot mesh points
     ax.scatter(coords[:, 0], coords[:, 1], coords[:, 2], s=weights, c='g')
-    ax.set_xlabel('x axis')
-    ax.set_ylabel('y axis')
-    ax.set_zlabel('z axis')
+    ax.set_xlabel('x-axis')
+    ax.set_ylabel('y-axis')
+    ax.set_zlabel('z-axis')
     plt.show()
     return
 
@@ -84,7 +84,7 @@ def plot_mesh_2d(mesh, weight=True, plane='xy'):
     weights = 2
     if weight:
         weights = abs(mesh.weights)
-    # Get the atom colors and radii (scale with 100 so it looks good)
+    # Get the atom colors and radii (scale with 100 to make it look good)
     colors = []
     radii = []
     for ia in range(mol.natm):
@@ -95,7 +95,7 @@ def plot_mesh_2d(mesh, weight=True, plane='xy'):
                 edgecolors='k')
     # Project mesh points
     plt.scatter(coords[:, ax[ax1]], coords[:, ax[ax2]], s=weights, c='g')
-    plt.xlabel(ax1 + ' axis')
-    plt.ylabel(ax2 + ' axis')
+    plt.xlabel(ax1 + '-axis')
+    plt.ylabel(ax2 + '-axis')
     plt.show()
     return
