@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import timeit
 from pyscf import dft, gto
-from var_mesh import opt_mesh
+from var_mesh import var_mesh
 
 mol = gto.M(atom='O 0 0 0; H 0 0 0.95691; H 0.95691 0 -0.23987')
 mf = dft.RKS(mol)
@@ -17,7 +17,7 @@ time_mesh = []
 time_scf = []
 for i in range(len(errors)):
     t1 = timeit.default_timer()
-    mf.grids = opt_mesh(mf.grids, errors[i], precise=True)
+    mf.grids = var_mesh(mf.grids, errors[i], precise=True)
     t2 = timeit.default_timer()
     mf.kernel()
     t3 = timeit.default_timer()

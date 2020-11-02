@@ -6,7 +6,7 @@ Generate total energy errors and mesh errors.
 import matplotlib.pyplot as plt
 import numpy as np
 from pyscf import dft, gto
-from var_mesh import opt_mesh
+from var_mesh import var_mesh
 
 mol = gto.M(atom='O 0 0 0; H 0 0 0.95691; H 0.95691 0 -0.23987')
 mf = dft.RKS(mol)
@@ -15,7 +15,7 @@ errors = 10.0**(np.arange(-6, -11, -1))
 etots = []
 for i in range(len(errors)):
     print('[%d/%d]' % (i + 1, len(errors)))
-    mf.grids = opt_mesh(mf.grids, errors[i])
+    mf.grids = var_mesh(mf.grids, errors[i])
     mf.kernel()
     etots.append(mf.e_tot)
 
