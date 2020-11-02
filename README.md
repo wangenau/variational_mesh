@@ -6,12 +6,12 @@ A variational mesh implementation in Python to be used with [PySCF](https://gith
 
 ## Dependencies
 
-The code is written for Python3, but will work with Python2 aswell.
+The code is written for Python3, but will work with Python2.
 
-Recommended package versions:
-* matplotlib 3.0.3
-* numpy 1.18.5
-* pyscf 1.7.5
+* Recommended package versions
+  * matplotlib 3.0.3
+  * numpy 1.18.5
+  * pyscf 1.7.5
 
 ## Installation
 
@@ -29,10 +29,10 @@ To learn about the usage of this package, take a look inside the [examples folde
 
 * **Wanja Schulze** - Maintainer - wangenau@protonmail.com
 * **Jens Kortus** - Supervisor
-* **Sebastian Schwalbe** - Co-autor
-* **Jakob Kraus** - Co-autor
-* **Kai Trepte** - Co-autor
-* **Simon Liebing** - Co-autor
+* **Sebastian Schwalbe** - Co-worker
+* **Jakob Kraus** - Co-worker
+* **Kai Trepte** - Co-worker
+* **Simon Liebing** - Co-worker
 
 ## License
 
