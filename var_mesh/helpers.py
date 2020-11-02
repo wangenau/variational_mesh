@@ -46,7 +46,8 @@ def plot_mesh_3d(mesh, weight=True, **kwargs):
     fig = plt.figure()
     ax = fig.add_subplot(111, projection=Axes3D.name)
     # Plot atoms
-    ax.scatter(atoms[:, 0], atoms[:, 1], atoms[:, 2], s=radii, c=colors, edgecolors='k', depthshade=0)
+    ax.scatter(atoms[:, 0], atoms[:, 1], atoms[:, 2], s=radii, c=colors,
+               edgecolors='k', depthshade=0)
     # Plot mesh points
     ax.scatter(coords[:, 0], coords[:, 1], coords[:, 2], s=weights, c='g')
     ax.set_xlabel('x axis')
@@ -90,7 +91,8 @@ def plot_mesh_2d(mesh, weight=True, plane='xy'):
         colors.append(cpk_colors.get(mol.atom_symbol(ia), 'magenta'))
         radii.append(BRAGG_RADII[charge(mol.atom_symbol(ia))] * 100)
     # Project atoms
-    plt.scatter(atoms[:, ax[ax1]], atoms[:, ax[ax2]], s=radii, c=colors, edgecolors='k')
+    plt.scatter(atoms[:, ax[ax1]], atoms[:, ax[ax2]], s=radii, c=colors,
+                edgecolors='k')
     # Project mesh points
     plt.scatter(coords[:, ax[ax1]], coords[:, ax[ax2]], s=weights, c='g')
     plt.xlabel(ax1 + ' axis')

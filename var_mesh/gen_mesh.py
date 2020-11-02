@@ -61,7 +61,7 @@ def var_mesh(mesh, thres=1e-6, precise=True):
     mf.grids.verbose = 0
 
     # Enter coarse grid search
-    types = atom_type(mesh.mol)
+    types = atom_types(mesh.mol)
     steps = get_steps()
     log.info('Start coarse grid search.')
     # Go through grid and raise atom grids for every atom
@@ -126,8 +126,8 @@ def get_steps():
 def get_combs(mol, level):
     '''Generate possible grid level combinations for a fine grid search.'''
     steps = get_steps()
-    types = atom_type(mol)
-    amounts = atom_amount(mol)
+    types = atom_types(mol)
+    amount = atom_amount(mol)
     combs = numpy.empty((0, len(types)), int)
     # Generate every possible combination
     for i in range(len(types)):
@@ -141,13 +141,13 @@ def get_combs(mol, level):
         tmp = 0
         for i in range(len(types)):
             symb = types[i]
-            tmp += amounts[symb] * get_rad(symb, ic[i]) * get_ang(symb, ic[i])
+            tmp += amount[symb] * get_rad(symb, ic[i]) * get_ang(symb, ic[i])
         grids.append(tmp)
     # Calculate the upper grid point boundary
     grids_max = 0
     for i in range(len(types)):
         symb = types[i]
-        grids_max += amounts[symb] * get_rad(symb, level) * get_ang(symb, level)
+        grids_max += amount[symb] * get_rad(symb, level) * get_ang(symb, level)
     grids = numpy.asarray(grids)
     # Remove combinations with more grids than the upper boundary
     mask = grids < grids_max
@@ -180,7 +180,7 @@ def mesh_error(mf):
     return abs(mol.nelectron - n) / mol.nelectron
 
 
-def atom_type(mol):
+def atom_types(mol):
     '''Get types of atoms in a molecule.'''
     types = set()
     for ia in range(mol.natm):
@@ -191,8 +191,8 @@ def atom_type(mol):
 
 def atom_amount(mol):
     '''Get amount of atoms in a molecule.'''
-    amounts = {}
+    amount = {}
     for ia in range(mol.natm):
         symb = mol.atom_symbol(ia)
-        amounts[symb] = sum(i.count(symb) for i in mol.atom)
-    return amounts
+        amount[symb] = sum(i.count(symb) for i in mol.atom)
+    return amount
