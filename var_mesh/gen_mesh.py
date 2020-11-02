@@ -8,7 +8,7 @@ import sys
 from pyscf import dft, gto
 from pyscf.lib import logger
 
-# Standard angular grids that have to be used
+# Angular grids that have to be used
 ang_grids = dft.gen_grid.LEBEDEV_NGRID
 rad = None
 ang = None
@@ -30,28 +30,28 @@ def get_ang(symb, level):
         return ang[symb][level]
 
 
-def opt_mesh(mesh, thres, precise=True):
+def var_mesh(mesh, thres=1e-6, precise=True):
     '''Minimize grid points for a given error threshold for the initial density.
 
     Args:
         mesh :
             Grids object
 
+    Kwargs:
         thres : scalar
             Maximum error of the initial density (normalized at one electron).
 
-    Kwargs:
         precise : bool
             Use a precise search to find a better mesh that fits the threshold.
             Turned on by default (slower).
 
     Returns:
-        Grid object
+        Grids object
     '''
     # Initialize logger
     verbose = mesh.verbose
     log = logger.Logger(sys.stdout, verbose)
-    # Create calculcator to generate the initial density
+    # Create calculator to generate the initial density
     mf = dft.RKS(mesh.mol)
     mf.max_cycle = 0
     mf.grids = mesh
@@ -153,7 +153,7 @@ def get_combs(mol, level):
     mask = grids < grids_max
     grids = grids[mask]
     combs = combs[mask]
-    # sort combinations with respect to grid points
+    # Sort combinations with respect to grid points
     idx = numpy.argsort(grids)
     return combs[idx]
 
@@ -172,6 +172,7 @@ def mesh_error(mf):
     '''Calculate the density error per electron on a mesh.'''
     mol = mf.mol
     dm = mf.make_rdm1()
+    # Account for different density matrix formats
     if dm.ndim == 3:
         dm = dm[0]
     rho = mf._numint.get_rho(mol, dm, mf.grids, mf.max_memory)
