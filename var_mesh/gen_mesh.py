@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 '''
-Generate meshes with a numerical error threshold of the initial density.
+Generate meshes by a numerical error threshold of the initial density.
 '''
 
 import numpy
