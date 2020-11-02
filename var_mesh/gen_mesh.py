@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 '''
-Generate meshes by a numerical error threshold of the initial density.
+Generate meshes by a numerical error threshold of the initial-guess density.
 '''
 
-import numpy
-import sys
+import numpy as np
 from pyscf import dft, gto
 from pyscf.lib import logger
+from sys import stdout
 
-# Angular grids that have to be used
+# Lebedev angular grids that have to be used
 ang_grids = dft.gen_grid.LEBEDEV_NGRID
 rad = None
 ang = None
@@ -50,7 +50,7 @@ def var_mesh(mesh, thres=1e-6, precise=True):
     '''
     # Initialize logger
     verbose = mesh.verbose
-    log = logger.Logger(sys.stdout, verbose)
+    log = logger.Logger(stdout, verbose)
     # Create calculator to generate the initial density
     mf = dft.RKS(mesh.mol)
     mf.max_cycle = 0
@@ -128,13 +128,13 @@ def get_combs(mol, level):
     steps = get_steps()
     types = atom_types(mol)
     amount = atom_amount(mol)
-    combs = numpy.empty((0, len(types)), int)
+    combs = np.empty((0, len(types)), int)
     # Generate every possible combination
     for i in range(len(types)):
         tmp = [list(range(level, steps))] * len(types)
         tmp[i] = list(range(0, level))
-        tmp = numpy.array(numpy.meshgrid(*tmp)).T.reshape(-1, len(types))
-        combs = numpy.vstack((combs, tmp))
+        tmp = np.array(np.meshgrid(*tmp)).T.reshape(-1, len(types))
+        combs = np.vstack((combs, tmp))
     # Calculate grid points per combination
     grids = []
     for ic in combs:
@@ -148,13 +148,13 @@ def get_combs(mol, level):
     for i in range(len(types)):
         symb = types[i]
         grids_max += amount[symb] * get_rad(symb, level) * get_ang(symb, level)
-    grids = numpy.asarray(grids)
+    grids = np.asarray(grids)
     # Remove combinations with more grids than the upper boundary
     mask = grids < grids_max
     grids = grids[mask]
     combs = combs[mask]
     # Sort combinations with respect to grid points
-    idx = numpy.argsort(grids)
+    idx = np.argsort(grids)
     return combs[idx]
 
 
@@ -169,14 +169,14 @@ def build_mesh(mesh, types, levels):
 
 
 def mesh_error(mf):
-    '''Calculate the density error per electron on a mesh.'''
+    '''Calculate the integrated density error per electron on a mesh.'''
     mol = mf.mol
     dm = mf.make_rdm1()
     # Account for different density matrix formats
     if dm.ndim == 3:
         dm = dm[0]
     rho = mf._numint.get_rho(mol, dm, mf.grids, mf.max_memory)
-    n = numpy.dot(rho, mf.grids.weights)
+    n = np.dot(rho, mf.grids.weights)
     return abs(mol.nelectron - n) / mol.nelectron
 
 
