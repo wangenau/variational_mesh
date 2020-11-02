@@ -18,7 +18,7 @@ def get_rad(symb, level):
     '''Get radial grids.'''
     try:
         return rad[symb][level]
-    except:
+    except (KeyError, TypeError):
         return dft.gen_grid._default_rad(gto.charge(symb), level)
 
 
@@ -26,7 +26,7 @@ def get_ang(symb, level):
     '''Get angular grids.'''
     try:
         return ang[symb][level]
-    except:
+    except (KeyError, TypeError):
         return dft.gen_grid._default_ang(gto.charge(symb), level)
 
 
