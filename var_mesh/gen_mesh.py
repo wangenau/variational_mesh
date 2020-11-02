@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 '''
-Generate meshes with a predefined numerical error of the initial density.
+Generate meshes with a numerical error threshold of the initial density.
 '''
 
 import numpy
@@ -16,18 +16,18 @@ ang = None
 
 def get_rad(symb, level):
     '''Get radial grids.'''
-    if rad is None:
-        return dft.gen_grid._default_rad(gto.charge(symb), level)
-    else:
+    try:
         return rad[symb][level]
+    except:
+        return dft.gen_grid._default_rad(gto.charge(symb), level)
 
 
 def get_ang(symb, level):
     '''Get angular grids.'''
-    if ang is None:
-        return dft.gen_grid._default_ang(gto.charge(symb), level)
-    else:
+    try:
         return ang[symb][level]
+    except:
+        return dft.gen_grid._default_ang(gto.charge(symb), level)
 
 
 def var_mesh(mesh, thres=1e-6, precise=True):
