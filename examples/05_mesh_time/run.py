@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 '''
-Time mesh generation for different error thresholds.
+Time the mesh generation for different error thresholds.
 '''
 
 import matplotlib.pyplot as plt
