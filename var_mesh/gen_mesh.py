@@ -194,5 +194,5 @@ def atom_amount(mol):
     amount = {}
     for ia in range(mol.natm):
         symb = mol.atom_symbol(ia)
-        amount[symb] = sum(i.count(symb) for i in mol.atom)
+        amount[symb] = sum(i[0].count(symb) for i in mol.atom)
     return amount
