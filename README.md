@@ -18,7 +18,7 @@ The code is written for Python3, but will work with Python2.
 ```
 git clone https://gitlab.com/wangenau/variational_mesh.git
 cd variational_mesh
-pip3 install -e .
+pip install -e .
 ```
 
 ## Usage
