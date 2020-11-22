@@ -11,6 +11,6 @@ mesh = dft.Grids(mol)
 mesh.level = 0
 mesh.build()
 
-# Plot the mesh with the helper functions
+# Plot the mesh with helper functions
 plot_mesh_3d(mesh=mesh, weight=True)
 plot_mesh_2d(mesh=mesh, weight=5, plane='xz')
