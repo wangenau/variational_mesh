@@ -12,5 +12,5 @@ mesh.level = 0
 mesh.build()
 
 # Plot the mesh with the helper functions
-plot_mesh_3d(mesh=mesh)
-plot_mesh_2d(mesh=mesh, weight=False, plane='xz')
+plot_mesh_3d(mesh=mesh, weight=True)
+plot_mesh_2d(mesh=mesh, weight=5, plane='xz')

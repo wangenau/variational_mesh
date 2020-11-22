@@ -20,7 +20,7 @@ cpk_colors = {
 }
 
 
-def plot_mesh_3d(mesh, weight=True, **kwargs):
+def plot_mesh_3d(mesh, weight=False, **kwargs):
     '''Plot atoms and grid points in a 3d plot.
 
     Args:
@@ -28,15 +28,18 @@ def plot_mesh_3d(mesh, weight=True, **kwargs):
             Grids object
 
     Kwargs:
-        weight : boolean
-            Scale grid points by their weights if true.
+        weight : boolean or integer
+            Scale grid points by their weights, or by a given value.
     '''
     mol = mesh.mol
     coords = mesh.coords
     atoms = mol.atom_coords()
-    weights = 2
-    if weight:
+    if weight and isinstance(weight, bool):
         weights = abs(mesh.weights)
+    elif weight and isinstance(weight, int):
+        weights = weight
+    else:
+        weights = 2
     # Get the atom colors and radii (scale with 100 to make it look good)
     colors = []
     radii = []
@@ -57,7 +60,7 @@ def plot_mesh_3d(mesh, weight=True, **kwargs):
     return
 
 
-def plot_mesh_2d(mesh, weight=True, plane='xy'):
+def plot_mesh_2d(mesh, weight=False, plane='xy'):
     '''Project atoms and grid points to a given plane.
 
     Args:
@@ -65,8 +68,8 @@ def plot_mesh_2d(mesh, weight=True, plane='xy'):
             Grids object
 
     Kwargs:
-        weight : boolean
-            Scale grid points by their weights if true.
+        weight : boolean or integer
+            Scale grid points by their weights, or by a given value.
 
         plane : string
             Contains the plane to project on to.
@@ -81,9 +84,12 @@ def plot_mesh_2d(mesh, weight=True, plane='xy'):
     mol = mesh.mol
     coords = mesh.coords
     atoms = mol.atom_coords()
-    weights = 2
-    if weight:
+    if weight and isinstance(weight, bool):
         weights = abs(mesh.weights)
+    elif weight and isinstance(weight, int):
+        weights = weight
+    else:
+        weights = 2
     # Get the atom colors and radii (scale with 100 to make it look good)
     colors = []
     radii = []
