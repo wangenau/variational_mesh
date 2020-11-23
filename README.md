@@ -29,7 +29,7 @@ To learn about the usage of this package, take a look inside the [examples folde
 
 * **Wanja Schulze** - Maintainer - wangenau@protonmail.com
 * **Jens Kortus** - Supervisor
-* **Sebastian Schwalbe** - Co-worker
+* **Sebastian Schwalbe** - Co-worker - theonov13@gmail.com    
 * **Jakob Kraus** - Co-worker
 * **Kai Trepte** - Co-worker
 * **Simon Liebing** - Co-worker
