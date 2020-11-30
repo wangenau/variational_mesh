@@ -8,3 +8,6 @@ dist/
 
 # PySCF temporary files
 tmp*
+
+# Sphinx documentation
+public/
