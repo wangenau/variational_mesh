@@ -1,6 +1,7 @@
 # Variational Mesh
 [![license](https://img.shields.io/badge/license-APACHE2-green)](https://www.apache.org/licenses/LICENSE-2.0)
 [![language](https://img.shields.io/badge/language-Python3-blue)](https://www.python.org/)
+[![DOI](https://zenodo.org/badge/315695302.svg)](https://zenodo.org/badge/latestdoi/315695302)
 
 A variational mesh implementation in Python to be used with [PySCF](https://github.com/pyscf/pyscf) or [PyFLOSIC](https://github.com/pyflosic/pyflosic).
 
