@@ -1,4 +1,4 @@
-Welcome to Variational Mesh documentation!
+Welcome to the Variational Mesh documentation!
 ============================================
 
 .. toctree::
