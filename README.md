@@ -31,7 +31,7 @@ To learn about the usage of this package, take a look inside the [examples folde
 * **Jens Kortus** - Supervisor
 * **Sebastian Schwalbe** - Co-worker - theonov13@gmail.com    
 * **Jakob Kraus** - Co-worker
-* **Kai Trepte** - Co-worker
+* **Kai Trepte** - Co-worker - kai.trepte1987@gmail.com
 * **Simon Liebing** - Co-worker
 
 ## License
