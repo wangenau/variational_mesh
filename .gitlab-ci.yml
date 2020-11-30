@@ -1,9 +1,9 @@
-image: python:3.7-alpine
+image: python:3.8-alpine
 
 pages:
   stage: deploy
   script:
-    - pip install -U sphinx
+    - pip install -U sphinx sphinx-rtd-theme
     - cd docs/
     - sphinx-build -b html . ../public
   artifacts:
