@@ -7,8 +7,6 @@ A variational mesh implementation in Python to be used with [PySCF](https://gith
 
 ## Dependencies
 
-The code is written for Python3, but will work with Python2.
-
 * Recommended package versions
   * matplotlib 3.0.3
   * numpy 1.18.5
