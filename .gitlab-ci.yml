@@ -1,8 +1,9 @@
-image: python:3.8-alpine
+image: python:3.8-slim
 
 pages:
   stage: deploy
   script:
+    - pip install -e .
     - pip install -U sphinx sphinx-rtd-theme
     - cd docs/
     - sphinx-build -b html . ../public
