@@ -3,6 +3,8 @@ image: python:3.8-slim
 pages:
   stage: deploy
   script:
+    - apt update -qy
+    - apt install -y libgomp1
     - pip install -e .
     - pip install -U sphinx sphinx-rtd-theme
     - cd docs/
