@@ -3,12 +3,11 @@ image: python:3.8-slim
 pages:
   stage: deploy
   script:
-    - apt update -qy
+    - apt update -y
     - apt install -y libgomp1
     - pip install -e .
     - pip install -U sphinx sphinx-rtd-theme
-    - cd docs/
-    - sphinx-build -b html . ../public
+    - sphinx-build -b html ./docs ./public
   artifacts:
     paths:
     - public
@@ -18,3 +17,4 @@ pages:
     changes:
       - .gitlab-ci.yml
       - docs/*
+      - docs/**/*
