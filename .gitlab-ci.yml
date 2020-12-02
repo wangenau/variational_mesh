@@ -3,7 +3,6 @@ image: python:3.8-alpine
 pages:
   stage: deploy
   script:
-    - pip install -e .
     - pip install -U sphinx sphinx-rtd-theme
     - cd docs/
     - sphinx-build -b html . ../public
@@ -14,4 +13,5 @@ pages:
     refs:
       - docs
     changes:
+      - .gitlab-ci.yml
       - docs/*
