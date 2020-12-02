@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 '''
-Generate meshes by a numerical error threshold of the initial-guess density.
+This module contains functions that are necessary to generate and optimize
+meshes by numerical error thresholds of the initial-guess density.
 '''
 
 import numpy as np
@@ -12,22 +13,6 @@ from sys import stdout
 ang_grids = dft.gen_grid.LEBEDEV_NGRID
 rad = None
 ang = None
-
-
-def get_rad(symb, level):
-    '''Get radial grids.'''
-    try:
-        return rad[symb][level]
-    except (KeyError, TypeError):
-        return dft.gen_grid._default_rad(gto.charge(symb), level)
-
-
-def get_ang(symb, level):
-    '''Get angular grids.'''
-    try:
-        return ang[symb][level]
-    except (KeyError, TypeError):
-        return dft.gen_grid._default_ang(gto.charge(symb), level)
 
 
 def var_mesh(mesh, thres=1e-6, precise=True):
@@ -107,8 +92,50 @@ def var_mesh(mesh, thres=1e-6, precise=True):
     return mf.grids
 
 
+def get_rad(symb, level):
+    '''Get radial grids.
+
+    Args:
+        symb : str
+            Atom type identifier.
+
+        level : int
+            Grid level.
+
+    Returns:
+        Number of radial grids as an integer.
+    '''
+    try:
+        return rad[symb][level]
+    except (KeyError, TypeError):
+        return dft.gen_grid._default_rad(gto.charge(symb), level)
+
+
+def get_ang(symb, level):
+    '''Get angular grids.
+
+    Args:
+        symb : str
+            Atom type identifier.
+
+        level : int
+            Grid level.
+
+    Returns:
+        Number of angular grids as an integer.
+    '''
+    try:
+        return ang[symb][level]
+    except (KeyError, TypeError):
+        return dft.gen_grid._default_ang(gto.charge(symb), level)
+
+
 def get_steps():
-    '''Calculate the maximum number of optimization steps.'''
+    '''Calculate the maximum number of optimization steps.
+
+    Returns:
+        Maximum number of optimization as an integer.
+    '''
     if rad is None and ang is None:
         return 10
     elif rad is None:
@@ -124,7 +151,18 @@ def get_steps():
 
 
 def get_combs(mol, level):
-    '''Generate possible grid level combinations for a fine grid search.'''
+    '''Generate possible grid level combinations for a fine grid search.
+
+    Args:
+        mol :
+            Mole object
+
+        level : int
+            Grid level.
+
+    Returns:
+        Combinations of grid levels as an array.
+    '''
     steps = get_steps()
     types = atom_types(mol)
     amount = atom_amount(mol)
@@ -159,7 +197,21 @@ def get_combs(mol, level):
 
 
 def build_mesh(mesh, types, levels):
-    '''Build a mesh for given grid levels.'''
+    '''Build a mesh for given grid levels.
+
+    Args:
+        mesh :
+            Grids object
+
+        types : list
+             List of atom type identifiers.
+
+        levels : list
+            List of grid levels for atom types.
+
+    Returns:
+        Grids object
+    '''
     for i in range(len(types)):
         symb = types[i]
         n_rad = get_rad(symb, levels[i])
@@ -169,7 +221,15 @@ def build_mesh(mesh, types, levels):
 
 
 def mesh_error(mf):
-    '''Calculate the integrated density error per electron on a mesh.'''
+    '''Calculate the integrated density error per electron on a mesh.
+
+    Args:
+        mol :
+            RKS object
+
+    Returns:
+        Mesh error as a float.
+    '''
     mol = mf.mol
     dm = mf.make_rdm1()
     # Account for different density matrix formats
@@ -181,7 +241,15 @@ def mesh_error(mf):
 
 
 def atom_types(mol):
-    '''Get types of atoms in a molecule.'''
+    '''Get types of atoms in a molecule.
+
+    Args:
+        mol :
+            Mole object
+
+    Returns:
+        Atom types as a set.
+    '''
     types = set()
     for ia in range(mol.natm):
         symb = mol.atom_symbol(ia)
@@ -190,7 +258,15 @@ def atom_types(mol):
 
 
 def atom_amount(mol):
-    '''Get amount of atoms in a molecule.'''
+    '''Get amount of atoms in a molecule.
+
+    Args:
+        mol :
+            Mole object
+
+    Returns:
+        Dictionary with atom type identifiers as keys and amounts as values.
+    '''
     amount = {}
     for ia in range(mol.natm):
         symb = mol.atom_symbol(ia)

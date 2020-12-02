@@ -11,6 +11,8 @@ from var_mesh import var_mesh
 
 mol = gto.M(atom='O 0 0 0; H 0 0 0.95691; H 0.95691 0 -0.23987')
 mf = dft.RKS(mol)
+mf.verbose = 0
+mf.grids.verbose = 0
 
 # Set up different mesh errors and generate a mesh for it
 errors = 10.0**(np.arange(-1, -9, -1))

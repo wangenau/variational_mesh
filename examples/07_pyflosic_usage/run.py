@@ -25,8 +25,7 @@ sic_object = FLOSIC(mol, xc='lda,pw', fod1=fod1, fod2=fod2, ham_sic='HOO')
 sic_object.max_cycle = 300
 sic_object.conv_tol = 1e-7
 
-# The default example uses a grid level of 4, save its size
-sic_object.grid_level = 4
+# By default a grid level of 3 is used, save its size
 mesh_size = len(sic_object.calc_uks.grids.coords)
 sic_object.calc_uks.grids = var_mesh(sic_object.calc_uks.grids)
 

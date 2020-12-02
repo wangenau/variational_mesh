@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 '''
-This file contains functions to visualize different meshes, but are not
+This module contains functions to visualize different meshes, but are not
 necessary to generate them.
 '''
 
@@ -53,9 +53,10 @@ def plot_mesh_3d(mesh, weight=False, **kwargs):
                edgecolors='k', depthshade=0)
     # Plot mesh points
     ax.scatter(coords[:, 0], coords[:, 1], coords[:, 2], s=weights, c='g')
-    ax.set_xlabel('x-axis')
-    ax.set_ylabel('y-axis')
-    ax.set_zlabel('z-axis')
+    ax.set_xlabel('x-axis', fontsize=12)
+    ax.set_ylabel('y-axis', fontsize=12)
+    ax.set_zlabel('z-axis', fontsize=12)
+    plt.tight_layout()
     plt.show()
     return
 
@@ -101,7 +102,8 @@ def plot_mesh_2d(mesh, weight=False, plane='xy'):
                 edgecolors='k')
     # Project mesh points
     plt.scatter(coords[:, ax[ax1]], coords[:, ax[ax2]], s=weights, c='g')
-    plt.xlabel(ax1 + '-axis')
-    plt.ylabel(ax2 + '-axis')
+    plt.xlabel(ax1 + '-axis', fontsize=12)
+    plt.ylabel(ax2 + '-axis', fontsize=12)
+    plt.tight_layout()
     plt.show()
     return

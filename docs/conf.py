@@ -18,7 +18,11 @@ release = '1.0.0'
 
 # -- General configuration ---------------------------------------------------
 
-extensions = ['sphinx_rtd_theme']
+extensions = [
+    'sphinx.ext.autodoc',
+    'sphinx.ext.viewcode',
+    'sphinx_rtd_theme'
+]
 exclude_patterns = []
 templates_path = ['_templates']
 pygments_style = 'sphinx'
