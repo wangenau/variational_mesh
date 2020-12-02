@@ -6,13 +6,13 @@ Installation
 | The code is written for Python 3.4+, but it will work with Python 2.7.
 | The following packages are needed for a working installation
 
-* matplotlib
-* numpy
-* pyscf
+* `matplotlib <https://matplotlib.org/>`_
+* `numpy <https://numpy.org/>`_
+* `pyscf <https://sunqm.github.io/pyscf/>`_
 
 Some examples require extra packages, namely
 
-* ase
+* `ase <https://wiki.fysik.dtu.dk/ase/>`_
 * `pyflosic <https://github.com/pyflosic/pyflosic>`_
 
 The package and all necessary dependencies can be installed using pip
