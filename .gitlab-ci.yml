@@ -12,6 +12,6 @@ pages:
     - public
   only:
     refs:
-    - docs
-  changes:
-    - docs/*
+      - docs
+    changes:
+      - docs/*
