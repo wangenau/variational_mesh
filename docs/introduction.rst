@@ -63,3 +63,14 @@ How to cite
 ===========
 
 The project has been published with zenodo and has an assigned DOI that can be found `here <https://zenodo.org/record/4298752>`_.
+
+BibTeX key::
+
+   @Misc{Schulze2020,
+     author    = {Wanja Schulze and Sebastian Schwalbe and Kai Trepte and Jakob Kraus and Simon Liebing and Jens Kortus},
+     title     = {wangenau/variational_mesh: v1.0.0},
+     year      = {2020},
+     month     = nov,
+     doi       = {10.5281/zenodo.4298752},
+     publisher = {Zenodo},
+   }
