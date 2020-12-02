@@ -12,6 +12,7 @@ Tutorial
 
    >>> import var_mesh
 
+
 Minimal example
 ===============
 
@@ -166,6 +167,7 @@ This can be compared to the output, when the parameter ``precise`` is set to ``T
    Mesh points = 48500
 
 The script for this example can be downloaded :download:`here </../examples/04_precise_option/04_precise_option.py>`.
+
 
 Mesh time
 =========

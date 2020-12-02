@@ -14,4 +14,3 @@ Visualization
 =============
 .. automodule:: var_mesh.helpers
    :members:
-
