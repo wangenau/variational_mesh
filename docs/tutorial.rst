@@ -47,7 +47,7 @@ The output from :func:`var_mesh` can be reuse for future calculations.
    >>> mf.kernel()
    converged SCF energy = -74.7350158141935
 
-The script for this example can be downloaded :download:`here </../examples/01_minimal_example/run.py>`.
+The script for this example can be downloaded :download:`here </../examples/01_minimal_example/01_minimal_example.py>`.
 
 
 Custom grids
@@ -101,7 +101,7 @@ Changing the attribute ``verbose`` will also change the amount of output of the 
    Mesh points = 105360
 
 | One can see, that only five combinations in the coarse grid search will be tested. Because the custom angular grid levels for hydrogen has the shortest list of grid numbersonly the first five elements will be used for every other atomic species as well.
-| The script for this example can be downloaded :download:`here </../examples/02_custom_grids/run.py>`.
+| The script for this example can be downloaded :download:`here </../examples/02_custom_grids/02_custom_grids.py>`.
 
 
 Helper functions
@@ -132,7 +132,7 @@ The grid can be projected to a given plane, too. Also, the grid points can be sc
    :align: center
    :figwidth: 75%
 
-The script for this example can be downloaded :download:`here </../examples/03_helper_functions/run.py>`.
+The script for this example can be downloaded :download:`here </../examples/03_helper_functions/03_helper_functions.py>`.
 
 
 Precise option
@@ -165,7 +165,7 @@ This can be compared to the output, when the parameter ``precise`` is set to ``T
    Time spent = 3.657851 seconds
    Mesh points = 48500
 
-The script for this example can be downloaded :download:`here </../examples/04_precise_option/run.py>`.
+The script for this example can be downloaded :download:`here </../examples/04_precise_option/04_precise_option.py>`.
 
 Mesh time
 =========
@@ -239,7 +239,7 @@ These result can be plotted afterwards.
    :align: center
    :figwidth: 75%
 
-The script for this example can be downloaded :download:`here </../examples/05_mesh_time/run.py>`.
+The script for this example can be downloaded :download:`here </../examples/05_mesh_time/05_mesh_time.py>`.
 
 
 Calculation time
@@ -307,7 +307,7 @@ These result can be plotted as well.
    :align: center
    :figwidth: 75%
 
-The script for this example can be downloaded :download:`here </../examples/06_calculation_time/run.py>`.
+The script for this example can be downloaded :download:`here </../examples/06_calculation_time/06_calculation_time.py>`.
 
 
 PyFLOSIC example
@@ -371,4 +371,4 @@ After the FLO-SIC calculation we also end up at the same energy value.
    ...      (sic_object.homo_flosic, -0.623425516328))
    HOMO energy eigenvalue of H2 (FLO-SIC SCF): -0.62343 (should be -0.62343)
 
-The script for this example can be downloaded :download:`here </../examples/07_pyflosic_usage/run.py>`.
+The script for this example can be downloaded :download:`here </../examples/07_pyflosic_usage/07_pyflosic_usage.py>`.
