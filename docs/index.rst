@@ -12,11 +12,3 @@ Welcome to the Variational Mesh documentation!
    installation.rst
    tutorial.rst
    modules.rst
-
-
-.. Indices and tables
-.. ==================
-.. 
-.. * :ref:`genindex`
-.. * :ref:`modindex`
-.. * :ref:`search`

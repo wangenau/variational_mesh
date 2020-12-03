@@ -1,9 +1,8 @@
-# Byte-compiled / optimized / DLL files
+# Byte-compiled files
 __pycache__/
-*.py[cod]
+*.pyc
 
-# Distribution / packaging files
-dist/
+# Packaging files
 *.egg-info/
 
 # PySCF temporary files

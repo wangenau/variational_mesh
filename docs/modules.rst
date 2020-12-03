@@ -4,13 +4,13 @@ Modules
 *******
 
 
-Mesh generation
-===============
+:mod:`gen_mesh` - Mesh generation
+=================================
 .. automodule:: var_mesh.gen_mesh
    :members:
 
 
-Visualization
-=============
+:mod:`helpers` - Mesh Visualization
+===================================
 .. automodule:: var_mesh.helpers
    :members:

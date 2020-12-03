@@ -188,40 +188,13 @@ The timing code can look like the following
    >>> times_false = []
    >>> times_true = []
    >>> for i in range(len(errors)): \
-   ...     print('[%d/%d]' % (i + 1, len(errors))) \
-   ...     print('Error threshold = %.0e' % errors[i]) \
    ...     t1 = default_timer() \
    ...     mesh = var_mesh(mesh, thres=errors[i], precise=False) \
    ...     t2 = default_timer() \
    ...     mesh = var_mesh(mesh, thres=errors[i], precise=True) \
    ...     t3 = default_timer() \
    ...     times_false.append(t2 - t1) \
-   ...     times_true.append(t3 - t2) \
-   ...     print('Time spent = %f seconds' % (t3 - t1))
-   [1/8]
-   Error threshold = 1e-01
-   Time spent = 0.625009 seconds
-   [2/8]
-   Error threshold = 1e-02
-   Time spent = 0.563711 seconds
-   [3/8]
-   Error threshold = 1e-03
-   Time spent = 0.654029 seconds
-   [4/8]
-   Error threshold = 1e-04
-   Time spent = 1.644394 seconds
-   [5/8]
-   Error threshold = 1e-05
-   Time spent = 1.709194 seconds
-   [6/8]
-   Error threshold = 1e-06
-   Time spent = 3.365514 seconds
-   [7/8]
-   Error threshold = 1e-07
-   Time spent = 4.970581 seconds
-   [8/8]
-   Error threshold = 1e-08
-   Time spent = 6.234860 seconds
+   ...     times_true.append(t3 - t2)
 
 These result can be plotted afterwards.
 
@@ -257,40 +230,14 @@ Also interesting may be the grid generation time in relation to the DFT calculat
    >>> time_mesh = []
    >>> time_scf = []
    >>> for i in range(len(errors)): \
-   ...     print('[%d/%d]' % (i + 1, len(errors))) \
-   ...     print('Error threshold = %.0e' % errors[i]) \
    ...     t1 = default_timer() \
    ...     mf.grids = var_mesh(mf.grids, thres=errors[i], precise=True) \
    ...     t2 = default_timer() \
    ...     mf.kernel() \
    ...     t3 = default_timer() \
    ...     time_mesh.append(t2 - t1) \
-   ...     time_scf.append(t3 - t2) \
-   ...     print('Time spent = %f seconds' % (t3 - t1))
-   [1/8]
-   Error threshold = 1e-01
-   Time spent = 1.129980 seconds
-   [2/8]
-   Error threshold = 1e-02
-   Time spent = 1.243068 seconds
-   [3/8]
-   Error threshold = 1e-03
-   Time spent = 1.232043 seconds
-   [4/8]
-   Error threshold = 1e-04
-   Time spent = 2.208632 seconds
-   [5/8]
-   Error threshold = 1e-05
-   Time spent = 2.619179 seconds
-   [6/8]
-   Error threshold = 1e-06
-   Time spent = 3.800602 seconds
-   [7/8]
-   Error threshold = 1e-07
-   Time spent = 5.500163 seconds
-   [8/8]
-   Error threshold = 1e-08
-   Time spent = 6.132068 seconds
+   ...     time_scf.append(t3 - t2)
+
 
 These result can be plotted as well.
 
@@ -351,7 +298,7 @@ After the FLO-SIC calculation we also end up at the same energy value.
 
 .. code-block:: python
 
-   >>> total_energy_sic = sic_object.kernel()
+   >>> sic_object.kernel()
    ESIC = -0.045866
    ESIC = -0.045129
    ESIC = -0.045133
@@ -366,11 +313,5 @@ After the FLO-SIC calculation we also end up at the same energy value.
    ESIC = -0.045129
    ESIC = -0.045129
    converged SCF energy = -1.18118690828491  <S^2> = 6.6613381e-16  2S+1 = 1
-   >>> print('Total energy of H2 (FLO-SIC SCF): %0.5f (should be %0.5f)' % \
-   ...      (total_energy_sic, -1.18118689724))
-   Total energy of H2 (FLO-SIC SCF): -1.18119 (should be -1.18119)
-   >>> print('HOMO energy eigenvalue of H2 (FLO-SIC SCF): %0.5f (should be %0.5f)' % \
-   ...      (sic_object.homo_flosic, -0.623425516328))
-   HOMO energy eigenvalue of H2 (FLO-SIC SCF): -0.62343 (should be -0.62343)
 
 The script for this example can be downloaded :download:`here </../examples/07_pyflosic_usage/07_pyflosic_usage.py>`.

@@ -15,6 +15,5 @@ pages:
     refs:
       - docs
     changes:
-      - .gitlab-ci.yml
       - docs/*
       - docs/**/*
