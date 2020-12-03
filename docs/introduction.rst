@@ -7,7 +7,8 @@ Introduction
 What is this?
 =============
 
-A variational mesh algorithm can be defined as a quadrature mesh generation technique that depends on a variational parameter that regulates the accuracy. This package contains one implementation that can be used to optimize meshes for quantum chemistry calculations with `PySCF <https://github.com/pyscf/pyscf>`_ and/or `PyFLOSIC <https://github.com/pyflosic/pyflosic>`_.
+| A variational mesh algorithm can be defined as a quadrature mesh generation technique that depends on a variational parameter that regulates the accuracy. This package contains one implementation that can be used to optimize meshes for quantum chemistry calculations with `PySCF <https://github.com/pyscf/pyscf>`_ or `PyFLOSIC <https://github.com/pyflosic/pyflosic>`_.
+| The source code for this project is hosted on `GitLab <https://gitlab.com/wangenau/variational_mesh>`_.
 
 
 How it works
