@@ -20,7 +20,6 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinx_rtd_theme'
 ]
-exclude_patterns = []
 templates_path = []
 pygments_style = 'sphinx'
 
@@ -28,3 +27,4 @@ pygments_style = 'sphinx'
 
 html_theme = 'sphinx_rtd_theme'
 html_static_path = []
+html_show_sphinx = False

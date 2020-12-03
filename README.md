@@ -2,7 +2,7 @@
 [![license](https://img.shields.io/badge/license-APACHE2-green)](https://www.apache.org/licenses/LICENSE-2.0)
 [![language](https://img.shields.io/badge/language-Python3-blue)](https://www.python.org/)
 
-A variational mesh implementation to optimize meshes for quantum chemistry calculations to be used with [PySCF](https://github.com/pyscf/pyscf) or [PyFLOSIC](https://github.com/pyflosic/pyflosic).
+A variational mesh implementation to optimize meshes for quantum chemistry calculations with [PySCF](https://github.com/pyscf/pyscf) or [PyFLOSIC](https://github.com/pyflosic/pyflosic).
 
 ## Documentation
 

@@ -3,10 +3,9 @@
 Tutorial
 ********
 
-| This tutorial shows the usage of the :mod:`var_mesh` package.
-| Prerequisite for this tutorial is a successful :ref:`installation<installation>` of the package.
-| The code examples can be executed when going from top to bottom. When looking at specific examples, some previous inputs may be necessary to run them. To run the example seperately the code for each can be found at the bottom of the section.
-| Test the installation with the command in your Python shell.
+| This tutorial shows the usage of the :mod:`var_mesh` package. The prerequisite for this tutorial is a successful :ref:`installation<installation>` of the package.
+| The code snippets can be executed in a Python shell when going from top to bottom. When looking at specific examples, some previous inputs may be necessary to run them. To run the example separately, the script can be found at the bottom of the section.
+| Test the installation with the following command in your Python shell.
 
 .. code-block:: python
 
@@ -31,7 +30,7 @@ At next, the water :mod:`mol` object can be created, along with the :mod:`RKS` o
    >>> mol = gto.M(atom='O 0 0 0; H 0 0 0.95691; H 0.95691 0 -0.23987')
    >>> mf = dft.RKS(mol)
 
-Calling the function :func:`var_mesh` and overwriting the existing :class:`Grids` object will create the optimizes mesh for the calculation, that can be started afterwards.
+Calling the function :func:`var_mesh` and overwriting the existing :class:`Grids` object will create the optimized mesh for the calculation, that can be started afterward.
 
 .. code-block:: python
 
@@ -79,7 +78,7 @@ Different attributes of the :class:`Grids` class can also freely be used and wil
    >>> mesh = dft.Grids(mol)
    >>> mesh.prune = None
 
-Changing the attribute ``verbose`` will also change the amount of output of the :func:`var_mesh` function, with the maximum output at level ``5``. Also, the error threshold can be changes as well.
+Changing the attribute ``verbose`` will also change the amount of output of the :func:`var_mesh` function, with the maximum output at level ``5``. Also, the error threshold can be changed as well.
 
 .. code-block:: python
 
@@ -99,10 +98,12 @@ Changing the attribute ``verbose`` will also change the amount of output of the 
    'H' = 2
    'O' = 1
    Atom grids = {'H': (40, 590), 'O': (40, 1454)}
+   >>> print('Mesh points = %d' % len(mesh.coords))
    Mesh points = 105360
 
-| One can see, that only five combinations in the coarse grid search will be tested. Because the custom angular grid levels for hydrogen has the shortest list of grid numbersonly the first five elements will be used for every other atomic species as well.
-| The script for this example can be downloaded :download:`here </../examples/02_custom_grids/02_custom_grids.py>`.
+One can see, that only five combinations in the coarse grid search will be tested. Because the custom angular grid levels for hydrogen has the shortest list of grid numbers, only the first five elements will be used for every other atomic species.
+
+The script for this example can be downloaded :download:`here </../examples/02_custom_grids/02_custom_grids.py>`.
 
 
 Helper functions
@@ -139,7 +140,7 @@ The script for this example can be downloaded :download:`here </../examples/03_h
 Precise option
 ==============
 
-The fine grid search is enabled by default, but can be disabled with the parameter ``precise``. Disabling this option will result in a faster grid generation process, but the resulting grid may be larger.
+The fine grid search is enabled by default but can be disabled with the parameter ``precise``. Disabling this option will result in a faster grid generation process, but the resulting grid may be larger.
 
 .. code-block:: python
 
@@ -263,8 +264,8 @@ PyFLOSIC example
 ================
 
 | This example has been adopted from a PyFLOSIC `example <https://github.com/pyflosic/pyflosic/tree/master/examples/basic_calculations>`_.
-| This package can be used with the :mod:`pyflosic` package, too. At first a geometry file is needed: :download:`H2.xyz </../examples/07_pyflosic_usage/H2.xyz>`
-| Since pyflosic only supports Python 3, this example can not be executed with Python 2. :mod:`ase` is required as well.
+| This package can be used with the :mod:`pyflosic` package, too. At first, a geometry file is needed: :download:`H2.xyz </../examples/07_pyflosic_usage/H2.xyz>`
+| Since :mod:`pyflosic` only supports Python 3, this example can not be executed with Python 2. The package :mod:`ase` is required as well.
 
 .. code-block:: python
 
@@ -272,7 +273,7 @@ PyFLOSIC example
    >>> from flosic_os import ase2pyscf, xyz_to_nuclei_fod
    >>> from flosic_scf import FLOSIC
 
-At wirst we have to set up the calculation details.
+At next we have to set up the calculation details.
 
 .. code-block:: python
 
@@ -294,7 +295,7 @@ By default a grid level of ``3`` will be used. Compare the mesh size before and 
    >>> print('Mesh size after: %d' % len(sic_object.calc_uks.grids.coords))
    Mesh size after: 6600
 
-After the FLO-SIC calculation we also end up at the same energy value.
+Finally, start the FLO-SIC calculation.
 
 .. code-block:: python
 
