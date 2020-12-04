@@ -20,18 +20,19 @@ def var_mesh(mesh, thres=1e-6, precise=True):
 
     Args:
         mesh :
-            Grids object
+            Object of class :class:`Grids`.
 
     Kwargs:
-        thres : scalar
-            Maximum error of the initial density (normalized at one electron).
+        thres : float
+            Maximum error of the initial-guess density (normalized to one
+            electron).
 
         precise : bool
-            Use a precise search to find a better mesh that fits the threshold.
-            Turned on by default (slower).
+            Disable the coarse grid search when set to ``False``. This will
+            speed up the mesh generation but results in more grid points.
 
     Returns:
-        Grids object
+        Object of class :class:`Grids`.
     '''
     # Initialize logger
     verbose = mesh.verbose
@@ -100,10 +101,10 @@ def get_rad(symb, level):
             Atom type identifier.
 
         level : int
-            Grid level.
+            Grid level of atom type.
 
-    Returns:
-        Number of radial grids as an integer.
+    Returns: int
+        Amount of radial grids.
     '''
     try:
         return rad[symb][level]
@@ -119,10 +120,10 @@ def get_ang(symb, level):
             Atom type identifier.
 
         level : int
-            Grid level.
+            Grid level of atom type.
 
-    Returns:
-        Number of angular grids as an integer.
+    Returns: int
+        Amount of angular grids.
     '''
     try:
         return ang[symb][level]
@@ -131,10 +132,10 @@ def get_ang(symb, level):
 
 
 def get_steps():
-    '''Calculate the maximum number of optimization steps.
+    '''Get the maximum number of optimization steps.
 
-    Returns:
-        Maximum number of optimization as an integer.
+    Returns: int
+        Largest grid level.
     '''
     if rad is None and ang is None:
         return 10
@@ -155,13 +156,13 @@ def get_combs(mol, level):
 
     Args:
         mol :
-            Mole object
+            Object of class :class:`Mole`.
 
         level : int
-            Grid level.
+            Grid level of the found match in the coarse grid search.
 
-    Returns:
-        Combinations of grid levels as an array.
+    Returns: ndarray
+        Possible combinations of grid levels.
     '''
     steps = get_steps()
     types = atom_types(mol)
@@ -197,20 +198,20 @@ def get_combs(mol, level):
 
 
 def build_mesh(mesh, types, levels):
-    '''Build a mesh for given grid levels.
+    '''Build mesh for given grid levels.
 
     Args:
         mesh :
-            Grids object
+            Object of class :class:`Grids`.
 
         types : list
-             List of atom type identifiers.
+             Atom type identifiers.
 
         levels : list
-            List of grid levels for atom types.
+            Grid levels per atom type.
 
     Returns:
-        Grids object
+        Object of class :class:`Grids`.
     '''
     for i in range(len(types)):
         symb = types[i]
@@ -221,14 +222,14 @@ def build_mesh(mesh, types, levels):
 
 
 def mesh_error(mf):
-    '''Calculate the integrated density error per electron on a mesh.
+    '''Calculate the error per electron when integrating the electron density.
 
     Args:
         mol :
-            RKS object
+            Object of class :class:`RKS` or :class:`UKS`.
 
-    Returns:
-        Mesh error as a float.
+    Returns: float
+        Mesh error.
     '''
     mol = mf.mol
     dm = mf.make_rdm1()
@@ -245,10 +246,10 @@ def atom_types(mol):
 
     Args:
         mol :
-            Mole object
+            Object of class :class:`Mole`.
 
-    Returns:
-        Atom types as a set.
+    Returns: set
+        Unique atom type identifiers.
     '''
     types = set()
     for ia in range(mol.natm):
@@ -258,14 +259,14 @@ def atom_types(mol):
 
 
 def atom_amount(mol):
-    '''Get amount of atoms in a molecule.
+    '''Get the amount of atoms in a molecule.
 
     Args:
         mol :
-            Mole object
+            Object of class :class:`Mole`.
 
-    Returns:
-        Dictionary with atom type identifiers as keys and amounts as values.
+    Returns: dict
+        Atom type identifiers as keys and amounts as values.
     '''
     amount = {}
     for ia in range(mol.natm):

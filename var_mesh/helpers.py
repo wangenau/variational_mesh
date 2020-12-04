@@ -25,11 +25,12 @@ def plot_mesh_3d(mesh, weight=False, **kwargs):
 
     Args:
         mesh :
-            Grids object
+            Object of class :class:`Grids`.
 
     Kwargs:
-        weight : boolean or integer
-            Scale grid points by their weights, or by a given value.
+        weight : bool or int
+            Scale grid points by their weights when set to ``True``. Integers
+            will scale grid points.
     '''
     mol = mesh.mol
     coords = mesh.coords
@@ -62,18 +63,20 @@ def plot_mesh_3d(mesh, weight=False, **kwargs):
 
 
 def plot_mesh_2d(mesh, weight=False, plane='xy'):
-    '''Project atoms and grid points to a given plane.
+    '''Project atoms and grid points to a given plane in a 2d plot.
 
     Args:
         mesh :
-            Grids object
+            Object of class :class:`Grids`.
 
     Kwargs:
-        weight : boolean or integer
-            Scale grid points by their weights, or by a given value.
+        weight : bool or int
+            Scale grid points by their weights when set to ``True``. Integers
+            will scale grid points.
 
-        plane : string
-            Contains the plane to project on to.
+        plane : str
+            Contains the plane to project on to. Needs two elements of ``x``,
+            ``y``, and ``z``.
     '''
     # Dictionary to map input axes to their coordinates
     ax = {
