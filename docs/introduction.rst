@@ -7,8 +7,7 @@ Introduction
 What is this?
 =============
 
-| A variational mesh algorithm can be defined as a quadrature mesh generation technique that depends on a variational parameter that regulates the accuracy. This package contains one implementation that can be used to optimize meshes for quantum chemistry calculations with `PySCF <https://github.com/pyscf/pyscf>`_ or `PyFLOSIC <https://github.com/pyflosic/pyflosic>`_.
-| The source code for this project is hosted on `GitLab <https://gitlab.com/wangenau/variational_mesh>`_.
+A variational mesh algorithm can be defined as a quadrature mesh generation technique that depends on a variational parameter that regulates the accuracy. This package contains one implementation that can be used to optimize meshes for quantum chemistry calculations with `PySCF <https://github.com/pyscf/pyscf>`_ or `PyFLOSIC <https://github.com/pyflosic/pyflosic>`_. The source code for this project can be found `here <https://gitlab.com/wangenau/variational_mesh>`_.
 
 
 How it works
@@ -68,9 +67,9 @@ The program-flow can be visualized with the following activity diagram.
 How to cite
 ===========
 
-The project has been published with Zenodo and has an assigned DOI that can be found `here <https://zenodo.org/record/4298752>`_.
+The project has been published with `Zenodo <https://zenodo.org/record/4298752>`_ and has an assigned DOI. The following BibTeX key can be used.
 
-BibTeX key::
+.. code-block:: TeX
 
    @Misc{Schulze2020,
      author    = {Wanja Schulze and Sebastian Schwalbe and Kai Trepte and Jakob Kraus and Simon Liebing and Jens Kortus},

@@ -3,9 +3,8 @@
 Tutorial
 ********
 
-| This tutorial shows the usage of the :mod:`var_mesh` package. The prerequisite for this tutorial is a successful :ref:`installation<installation>` of the package.
-| The code snippets can be executed in a Python shell when going from top to bottom. When looking at specific examples, some previous inputs may be necessary to run them. To run the example separately, the script can be found at the bottom of the section.
-| Test the installation with the following command in your Python shell.
+| This tutorial shows the usage of the :mod:`var_mesh` package. The code snippets can be executed in a Python shell when going from top to bottom. When looking at specific examples, some previous inputs may be necessary to run them. To run the example separately, the script can be found at the bottom of the section.
+| The prerequisite for this tutorial is a successful :ref:`installation<installation>` of the package. Test the installation with the following command in your Python shell.
 
 .. code-block:: python
 
@@ -15,8 +14,7 @@ Tutorial
 Minimal example
 ===============
 
-| With the goal in mind to optimize meshes for further DFT calculations, a simple example calculation for water can be done.
-| For this, the necessary :mod:`pyscf` and :mod:`var_mesh` modules need to be imported.
+With the goal in mind to optimize meshes for further DFT calculations, a simple example calculation for water can be done. For this, the necessary :mod:`pyscf` and :mod:`var_mesh` modules need to be imported.
 
 .. code-block:: python
 
@@ -53,8 +51,7 @@ The script for this example can be downloaded :download:`here </../examples/01_m
 Custom grids
 ============
 
-| Instead of default PySCF grid levels, custom radial or angular grids can be used as well.
-| For this, the parameters ``rad`` or ``ang`` can be overwritten with dictionaries that have the atom type identifiers as keys, with lists of the respective number of grids as values.
+Instead of default PySCF grid levels, custom radial or angular grids can be used as well. For this, the parameters ``rad`` or ``ang`` can be overwritten with dictionaries that have the atom type identifiers as keys, with lists of the respective number of grids as values.
 
 .. code-block:: python
 
@@ -263,9 +260,7 @@ The script for this example can be downloaded :download:`here </../examples/06_c
 PyFLOSIC example
 ================
 
-| This example has been adopted from a PyFLOSIC `example <https://github.com/pyflosic/pyflosic/tree/master/examples/basic_calculations>`_.
-| This package can be used with the :mod:`pyflosic` package, too. At first, a geometry file is needed: :download:`H2.xyz </../examples/07_pyflosic_usage/H2.xyz>`
-| Since :mod:`pyflosic` only supports Python 3, this example can not be executed with Python 2. The package :mod:`ase` is required as well.
+This package can be used with the :mod:`pyflosic` package, too. Since :mod:`pyflosic` only supports Python 3, this example can not be executed with Python 2. The package :mod:`ase` is required as well.
 
 .. code-block:: python
 
@@ -273,7 +268,8 @@ PyFLOSIC example
    >>> from flosic_os import ase2pyscf, xyz_to_nuclei_fod
    >>> from flosic_scf import FLOSIC
 
-At next we have to set up the calculation details.
+| At first, a geometry file is needed: :download:`H2.xyz </../examples/07_pyflosic_usage/H2.xyz>`
+| Next, the calculation details have to be set up.
 
 .. code-block:: python
 
