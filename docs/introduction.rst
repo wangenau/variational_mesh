@@ -7,23 +7,23 @@ Introduction
 What is this?
 =============
 
-A variational mesh algorithm can be defined as a quadrature mesh generation technique that depends on a variational parameter that regulates the accuracy. This package contains one implementation that can be used to optimize meshes for quantum chemistry calculations with `PySCF <https://github.com/pyscf/pyscf>`_ or `PyFLOSIC <https://github.com/pyflosic/pyflosic>`_. The source code for this project can be found `here <https://gitlab.com/wangenau/variational_mesh>`_.
+A variational mesh algorithm can be defined as a quadrature mesh generation technique that depends on a variational parameter which regulates the accuracy. This package contains one implementation that can be used to optimize meshes for quantum chemistry calculations with `PySCF <https://github.com/pyscf/pyscf>`_ or `PyFLOSIC <https://github.com/pyflosic/pyflosic>`_. The source code for this project can be found `here <https://gitlab.com/wangenau/variational_mesh>`_.
 
 
 How it works
 ============
 
-We know, that the electronic density :math:`n(\boldsymbol r)` integrates to the number of electrons :math:`N` of our system.
+We know that the electronic density :math:`n(\boldsymbol r)` integrates to the number of electrons :math:`N` of our system
 
 .. math::
 
-   N = \int n(\boldsymbol r)\,\mathrm{d}^{3} \boldsymbol r
+   N = \int n(\boldsymbol r)\,\mathrm{d}^{3} \boldsymbol r .
 
-A good representation of this density with a given quadrature mesh is necessary for accurate density functional theory (DFT) calculations. Sadly, we do not have the true electronic density :math:`n(\boldsymbol r)` at the beginning of our calculation. Instead, we can use the initial-guess density :math:`n_{\mathrm{init}}(\boldsymbol r)` that integrates to a value of :math:`N_{\mathrm{init}}`. The representation of this density will be optimized by minimizing the error :math:`\epsilon` for a given threshold.
+A good representation of this density with a given quadrature mesh is necessary for accurate density functional theory (DFT) calculations. Unfortunately, we do not have the true electronic density :math:`n(\boldsymbol r)` at the beginning of our calculation. Instead, we can use the initial-guess density :math:`n_{\mathrm{init}}(\boldsymbol r)` that integrates to a value of :math:`N_{\mathrm{init}}`. The representation of this density will be optimized by minimizing the error :math:`\epsilon` for a given threshold
 
 .. math::
 
-   \epsilon = \frac{|N - N_{\mathrm{calc}}|}{N}
+   \epsilon = \frac{|N - N_{\mathrm{calc}}|}{N} .
 
 This threshold will be the variational parameter of this implementation.
 
@@ -57,7 +57,7 @@ At last, we can remove every combination that would have a larger number of grid
 Program flow
 ------------
 
-The program-flow can be visualized with the following activity diagram.
+The program-flow is visualized in the following activity diagram.
 
 .. figure:: _images/uml_diagram.png
    :align: center
