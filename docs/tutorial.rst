@@ -21,14 +21,14 @@ With the goal in mind to optimize meshes for further DFT calculations, a simple 
    >>> from pyscf import dft, gto
    >>> from var_mesh import var_mesh
 
-At next, the water :mod:`mol` object can be created, along with the :mod:`RKS` object for the restricted Kohn-Sham SCF calculation.
+Next, the water :mod:`mol` object can be created, along with the :mod:`RKS` object for the restricted Kohn-Sham SCF calculation.
 
 .. code-block:: python
 
    >>> mol = gto.M(atom='O 0 0 0; H 0 0 0.95691; H 0.95691 0 -0.23987')
    >>> mf = dft.RKS(mol)
 
-Calling the function :func:`var_mesh` and overwriting the existing :class:`Grids` object will create the optimized mesh for the calculation, that can be started afterward.
+Calling the function :func:`var_mesh` and overwriting the existing :class:`Grids` object will create the optimized mesh for the calculation, which can be started afterwards.
 
 .. code-block:: python
 
@@ -37,7 +37,7 @@ Calling the function :func:`var_mesh` and overwriting the existing :class:`Grids
    >>> mf.kernel()
    converged SCF energy = -74.7350158141935
 
-The output from :func:`var_mesh` can be reuse for future calculations.
+The output from :func:`var_mesh` can be reused for future calculations.
 
 .. code-block:: python
 
@@ -75,7 +75,7 @@ Different attributes of the :class:`Grids` class can also freely be used and wil
    >>> mesh = dft.Grids(mol)
    >>> mesh.prune = None
 
-Changing the attribute ``verbose`` will also change the amount of output of the :func:`var_mesh` function, with the maximum output at level ``5``. Also, the error threshold can be changed as well.
+Changing the attribute ``verbose`` will change the amount of output of the :func:`var_mesh` function, with the maximum output at level ``5``. The error threshold can be changed as well.
 
 .. code-block:: python
 
@@ -98,7 +98,7 @@ Changing the attribute ``verbose`` will also change the amount of output of the 
    >>> print('Mesh points = %d' % len(mesh.coords))
    Mesh points = 105360
 
-One can see, that only five combinations in the coarse grid search will be tested. Because the custom angular grid levels for hydrogen has the shortest list of grid numbers, only the first five elements will be used for every other atomic species.
+One can see that only five combinations in the coarse grid search will be tested. Because the custom angular grid levels for hydrogen has the shortest list of grid numbers, only the first five elements will be used for every other atomic species.
 
 The script for this example can be downloaded :download:`here </../examples/02_custom_grids/02_custom_grids.py>`.
 
@@ -120,7 +120,7 @@ The package comes with functions to visualize meshes. The function :func:`plot_m
    :align: center
    :figwidth: 75%
 
-The grid can be projected to a given plane, too. Also, the grid points can be scaled by a given integer.
+The grid can be projected to a given plane, and the grid points can be scaled by a given integer.
 
 .. code-block:: python
 
@@ -151,7 +151,7 @@ The fine grid search is enabled by default but can be disabled with the paramete
    Time spent = 1.228876 seconds
    Mesh points = 60828
 
-This can be compared to the output, when the parameter ``precise`` is set to ``True``
+This can be compared to the output when the parameter ``precise`` is set to ``True``
 
 .. code-block:: python
 
@@ -179,7 +179,7 @@ A more sophisticated way to show the time difference would be to time both optio
    >>> print(errors)
    [1.e-01 1.e-02 1.e-03 1.e-04 1.e-05 1.e-06 1.e-07 1.e-08]
 
-The timing code can look like the following
+A code to time the different options can look like the following
 
 .. code-block:: python
 
@@ -218,7 +218,7 @@ The script for this example can be downloaded :download:`here </../examples/05_m
 Calculation time
 ================
 
-Also interesting may be the grid generation time in relation to the DFT calculation time.
+Another interesting aspect might be the grid generation time in relation to the DFT calculation time.
 
 .. code-block:: python
 
@@ -280,7 +280,7 @@ This package can be used with the :mod:`pyflosic` package, too. Since :mod:`pyfl
    >>> sic_object.max_cycle = 300
    >>> sic_object.conv_tol = 1e-7
 
-By default a grid level of ``3`` will be used. Compare the mesh size before and after the optimization.
+By default a grid level of ``3`` will be used. Here we compare the mesh size before and after the optimization.
 
 .. code-block:: python
 
