@@ -13,7 +13,7 @@ pages:
     - public
   only:
     refs:
-      - docs
+      - master
     changes:
       - docs/*
       - docs/**/*
