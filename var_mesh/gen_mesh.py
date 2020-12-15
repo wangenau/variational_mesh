@@ -233,9 +233,9 @@ def mesh_error(mf):
     '''
     mol = mf.mol
     dm = mf.make_rdm1()
-    # Account for different density matrix formats
-    if dm.ndim == 3:
-        dm = dm[0]
+    # Density matrix for open-shell systems
+    if dm.ndim != 2:
+        dm = dm[0] + dm[1]
     rho = mf._numint.get_rho(mol, dm, mf.grids, mf.max_memory)
     n = np.dot(rho, mf.grids.weights)
     return abs(mol.nelectron - n) / mol.nelectron

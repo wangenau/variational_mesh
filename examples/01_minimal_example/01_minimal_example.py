@@ -15,8 +15,8 @@ mf = dft.RKS(mol)
 # Overwrite the grids object by calling the var_mesh function
 mf.grids = var_mesh(mf.grids)
 
-# Run the calculation
-mf.kernel()
-
 # The grid can be reused in future calculations by using its output
 # mf.grids.atom_grid = {'H': (30, 110), 'O': (60, 302)}
+
+# Run the calculation
+mf.kernel()
