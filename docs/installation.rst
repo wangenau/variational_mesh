@@ -19,6 +19,12 @@ The package and all necessary dependencies can be installed using pip
 
 .. code-block:: bash
 
+   $ pip install var-mesh
+
+Alternatively, you can create an installation by downloading the source code
+
+.. code-block:: bash
+
    $ git clone https://gitlab.com/wangenau/variational_mesh.git
    $ cd variational_mesh
-   $ pip install -e .
+   $ pip install .

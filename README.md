@@ -11,10 +11,10 @@ To learn how the implementation works or how to use it, take a look inside the [
 
 ## Installation
 
+The package can be installed using pip
+
 ```
-git clone https://gitlab.com/wangenau/variational_mesh.git
-cd variational_mesh
-pip install -e .
+pip install var-mesh
 ```
 
 ## Authors
