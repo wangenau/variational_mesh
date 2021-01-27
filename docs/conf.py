@@ -9,9 +9,9 @@ import sphinx_rtd_theme
 
 project = 'Variational Mesh'
 author = 'Wanja Schulze'
-copyright = '2020, Wanja Schulze'
+copyright = '2020-2021, Wanja Schulze'
 version = '1.0'
-release = '1.0.0'
+release = '1.0.1'
 
 # -- General configuration ---------------------------------------------------
 
