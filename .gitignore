@@ -3,6 +3,8 @@ __pycache__/
 *.pyc
 
 # Packaging files
+build/
+dist/
 *.egg-info/
 
 # PySCF temporary files
