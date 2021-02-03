@@ -167,6 +167,45 @@ This can be compared to the output when the parameter ``precise`` is set to ``Tr
 The script for this example can be downloaded :download:`here </../examples/04_precise_option/04_precise_option.py>`.
 
 
+Mode option
+===========
+
+The ``mode`` parameter will change the format of the final grid output. These outputs can be reused in the respective codes. Currently, the mode ``pyscf``, ``erkale``, and ``gamess`` are supported (case-insensitive).
+
+.. code-block:: python
+
+    >>> mesh = dft.Grids(mol)
+    >>> print('mode=PySCF:')
+    >>> var_mesh(mesh, mode='pyscf')
+    mode=PySCF:
+    PySCF grid: atom_grid = {'H': (30, 110), 'O': (60, 302)}
+
+If the code does not support different grids for different atom types, the precise option has no effect. If it is turned on, a warning will be generated.
+
+.. code-block:: python
+
+    >>> print('mode=ERKALE:')
+    >>> var_mesh(mesh, precise=True, mode='erkale')
+    mode=ERKALE:
+    
+    WARN: The precise option will have no effect when using gamess mode
+    
+    ERKALE grid: DFTGrid 60 -302
+
+Also, only the largest atom grid will be used in an optimization step. Thus, the atom grids will differ from the default ``pyscf`` mode and will be the same for every atom type.
+
+.. code-block:: python
+
+    >>> print('mode=GAMESS:')
+    >>> mesh = var_mesh(mesh, precise=False, mode='gamess')
+    mode=GAMESS:
+    GAMESS grid: $dft nrad=60 nleb=302 $end
+    >>> print('GAMESS grid: %s' % mesh.atom_grid)
+    GAMESS atom grids: {'H': (60, 302), 'O': (60, 302)}
+
+The script for this example can be downloaded :download:`here </../examples/05_mode_option/05_mode_option.py>`.
+
+
 Mesh time
 =========
 
@@ -212,7 +251,7 @@ These result can be plotted afterwards.
    :align: center
    :figwidth: 75%
 
-The script for this example can be downloaded :download:`here </../examples/05_mesh_time/05_mesh_time.py>`.
+The script for this example can be downloaded :download:`here </../examples/06_mesh_time/06_mesh_time.py>`.
 
 
 Calculation time
@@ -254,7 +293,7 @@ These result can be plotted as well.
    :align: center
    :figwidth: 75%
 
-The script for this example can be downloaded :download:`here </../examples/06_calculation_time/06_calculation_time.py>`.
+The script for this example can be downloaded :download:`here </../examples/07_calculation_time/07_calculation_time.py>`.
 
 
 PyFLOSIC example
@@ -268,7 +307,7 @@ This package can be used with the :mod:`pyflosic` package, too. Since :mod:`pyfl
    >>> from flosic_os import ase2pyscf, xyz_to_nuclei_fod
    >>> from flosic_scf import FLOSIC
 
-| At first, a geometry file is needed: :download:`H2.xyz </../examples/07_pyflosic_usage/H2.xyz>`
+| At first, a geometry file is needed: :download:`H2.xyz </../examples/08_pyflosic_usage/H2.xyz>`
 | Next, the calculation details have to be set up.
 
 .. code-block:: python
@@ -311,4 +350,4 @@ Finally, start the FLO-SIC calculation.
    ESIC = -0.045129
    converged SCF energy = -1.18118690828491  <S^2> = 6.6613381e-16  2S+1 = 1
 
-The script for this example can be downloaded :download:`here </../examples/07_pyflosic_usage/07_pyflosic_usage.py>`.
+The script for this example can be downloaded :download:`here </../examples/08_pyflosic_usage/08_pyflosic_usage.py>`.
