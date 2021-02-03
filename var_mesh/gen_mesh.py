@@ -15,7 +15,7 @@ rad = None
 ang = None
 
 
-def var_mesh(mesh, thres=1e-6, precise=True):
+def var_mesh(mesh, thres=1e-6, precise=True, mode='pyscf'):
     '''Minimize grid points for a given error threshold for the initial density.
 
     Args:
@@ -30,6 +30,12 @@ def var_mesh(mesh, thres=1e-6, precise=True):
         precise : bool
             Disable the coarse grid search when set to ``False``. This will
             speed up the mesh generation but results in more grid points.
+
+        mode : str
+            Set the output format. If the code does not support different grids
+            for different atom types, only the largest atom grid will be used
+            in an optimization step. Can be one of ``'pyscf'``, ``'erkale'`` or
+            ``'gamess'``.
 
     Returns:
         Object of class :class:`Grids`.
@@ -46,13 +52,17 @@ def var_mesh(mesh, thres=1e-6, precise=True):
     mf.mol.verbose = 0
     mf.grids.verbose = 0
 
+    mode = mode.lower()
+    if mode != 'pyscf' and precise:
+        log.warn('The precise option has no effect when using %s mode.', mode)
+
     # Enter coarse grid search
     types = atom_types(mesh.mol)
     steps = get_steps()
     log.info('Start coarse grid search.')
     # Go through grid and raise atom grids for every atom
     for i in range(steps):
-        mf.grids = build_mesh(mf.grids, types, [i] * len(types))
+        mf.grids = build_mesh(mf.grids, types, [i] * len(types), mode)
         mf.kernel()
         error = mesh_error(mf)
         log.debug('[%d/%d] Error = %.5e', i + 1, steps, error)
@@ -64,7 +74,7 @@ def var_mesh(mesh, thres=1e-6, precise=True):
     if error >= thres:
         log.warn('Couldn\'t met error condition.\n'
                  'Use the largest grid level instead.')
-    elif precise:
+    elif precise and mode == 'pyscf':
         # Enter fine grid search
         level = i
         combs = get_combs(mesh.mol, level)
@@ -72,7 +82,7 @@ def var_mesh(mesh, thres=1e-6, precise=True):
         log.info('Start fine grid search.')
         # Go through every possible grid level combination
         for i in range(steps):
-            mf.grids = build_mesh(mf.grids, types, combs[i])
+            mf.grids = build_mesh(mf.grids, types, combs[i], mode)
             mf.kernel()
             error = mesh_error(mf)
             log.debug('[%d/%d] Error = %.5e', i + 1, steps, error)
@@ -85,9 +95,15 @@ def var_mesh(mesh, thres=1e-6, precise=True):
         if error >= thres:
             log.info('Couldn\'t enhance the mesh anymore.')
             log.debug('Use level %d for every atom type instead.', level)
-            mf.grids = build_mesh(mf.grids, types, [level] * len(types))
-
-    log.note('Atom grids = %s', mf.grids.atom_grid)
+            mf.grids = build_mesh(mf.grids, types, [level] * len(types), mode)
+    if mode == 'erkale':
+        grid = list(mf.grids.atom_grid.values())[0]
+        log.note('ERKALE grid: DFTGrid %d -%d', grid[0], grid[1])
+    elif mode == 'gamess':
+        grid = list(mf.grids.atom_grid.values())[0]
+        log.note('GAMESS grid: $dft nrad=%d nleb=%d $end', grid[0], grid[1])
+    else:
+        log.note('PySCF grid: atom_grid = %s', mf.grids.atom_grid)
     # Restore original verbose level
     mf.grids.verbose = verbose
     return mf.grids
@@ -197,7 +213,7 @@ def get_combs(mol, level):
     return combs[idx]
 
 
-def build_mesh(mesh, types, levels):
+def build_mesh(mesh, types, levels, mode):
     '''Build mesh for given grid levels.
 
     Args:
@@ -210,14 +226,32 @@ def build_mesh(mesh, types, levels):
         levels : list
             Grid levels per atom type.
 
+        mode : str
+            Set the output format. If the code does not support different grids
+            for different atom types, only the largest atom grid will be used
+            in an optimization step. Can be one of ``'pyscf'``, ``'erkale'`` or
+            ``'gamess'``.
+
     Returns:
         Object of class :class:`Grids`.
     '''
-    for i in range(len(types)):
-        symb = types[i]
-        n_rad = get_rad(symb, levels[i])
-        n_ang = get_ang(symb, levels[i])
-        mesh.atom_grid[symb] = (n_rad, n_ang)
+    if mode == 'pyscf':
+        for i in range(len(types)):
+            symb = types[i]
+            n_rad = get_rad(symb, levels[i])
+            n_ang = get_ang(symb, levels[i])
+            mesh.atom_grid[symb] = (n_rad, n_ang)
+    else:
+        n_rads = []
+        n_angs = []
+        for i in range(len(types)):
+            symb = types[i]
+            n_rads.append(get_rad(symb, levels[i]))
+            n_angs.append(get_ang(symb, levels[i]))
+        # Get the index for the largest grid and use it for every atom type
+        idx = np.argmax(np.multiply(n_rads, n_angs))
+        for it in types:
+            mesh.atom_grid[it] = (n_rads[idx], n_angs[idx])
     return mesh.build()
 
 
