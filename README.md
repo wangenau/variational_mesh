@@ -28,4 +28,4 @@ pip install var-mesh
 
 ## License
 
-This project is licensed under the Apache 2.0 License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the Apache 2.0 License - see the [LICENSE](https://gitlab.com/wangenau/variational_mesh/-/blob/master/LICENSE) file for details.
