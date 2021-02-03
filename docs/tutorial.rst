@@ -114,7 +114,7 @@ The package comes with functions to visualize meshes. The function :func:`plot_m
    >>> mesh = dft.Grids(mol)
    >>> mesh.level = 0
    >>> mesh.build()
-   >>> plot_mesh_3d(mesh=mesh, weight=True)
+   >>> plot_mesh_3d(mesh, weight=True)
 
 .. figure:: _images/plot_mesh_3d.png
    :align: center
@@ -125,7 +125,7 @@ The grid can be projected to a given plane, and the grid points can be scaled by
 .. code-block:: python
 
    >>> from var_mesh import plot_mesh_2d
-   >>> plot_mesh_2d(mesh=mesh, weight=5, plane='xz')
+   >>> plot_mesh_2d(mesh, weight=5, plane='xz')
 
 .. figure:: _images/plot_mesh_2d.png
    :align: center
@@ -170,7 +170,7 @@ The script for this example can be downloaded :download:`here </../examples/04_p
 Mode option
 ===========
 
-The ``mode`` parameter will change the format of the final grid output. These outputs can be reused in the respective codes. Currently, the mode ``pyscf``, ``erkale``, and ``gamess`` are supported (case-insensitive).
+The ``mode`` parameter will change the format of the final grid output. These outputs can be reused in the respective codes. Currently, the mode ``'pyscf'``, ``'erkale'``, and ``'gamess'`` are supported (case-insensitive).
 
 .. code-block:: python
 
@@ -188,11 +188,11 @@ If the code does not support different grids for different atom types, the preci
     >>> var_mesh(mesh, precise=True, mode='erkale')
     mode=ERKALE:
     
-    WARN: The precise option will have no effect when using gamess mode
+    WARN: The precise parameter has no effect when using 'gamess' mode.
     
     ERKALE grid: DFTGrid 60 -302
 
-Also, only the largest atom grid will be used in an optimization step. Thus, the atom grids will differ from the default ``pyscf`` mode and will be the same for every atom type.
+Also, only the largest atom grid will be used in an optimization step. Thus, the atom grids will differ from the default ``'pyscf'`` mode and will be the same for every atom type.
 
 .. code-block:: python
 

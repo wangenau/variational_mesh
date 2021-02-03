@@ -60,7 +60,7 @@ def var_mesh(mesh, thres=1e-6, precise=True, mode='pyscf'):
         log.error('The mode parameter has to be one of \'%s\'.',
                   '\', \''.join(supported))
     if mode != 'pyscf' and precise:
-        log.warn('The precise parameter has no effect when using %s mode.',
+        log.warn('The precise parameter has no effect when using \'%s\' mode.',
                  mode)
 
     # Create calculator to generate the initial density
