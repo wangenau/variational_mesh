@@ -79,6 +79,7 @@ def var_mesh(mesh, thres=1e-6, precise=True, mode='pyscf'):
     # Go through grid and raise atom grids for every atom
     for i in range(steps):
         mf.grids = build_mesh(mf.grids, types, [i] * len(types), mode)
+        log.debug1('[%d/%d] Grids = %s', i + 1, steps, mf.grids.atom_grid)
         mf.kernel()
         error = mesh_error(mf)
         log.debug('[%d/%d] Error = %.5e', i + 1, steps, error)
@@ -99,6 +100,7 @@ def var_mesh(mesh, thres=1e-6, precise=True, mode='pyscf'):
         # Go through every possible grid level combination
         for i in range(steps):
             mf.grids = build_mesh(mf.grids, types, combs[i], mode)
+            log.debug1('[%d/%d] Grids = %s', i + 1, steps, mf.grids.atom_grid)
             mf.kernel()
             error = mesh_error(mf)
             log.debug('[%d/%d] Error = %.5e', i + 1, steps, error)

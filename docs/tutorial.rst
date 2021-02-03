@@ -75,7 +75,7 @@ Different attributes of the :class:`Grids` class can also freely be used and wil
    >>> mesh = dft.Grids(mol)
    >>> mesh.prune = None
 
-Changing the attribute ``verbose`` will change the amount of output of the :func:`var_mesh` function, with the maximum output at level ``5``. The error threshold can be changed as well.
+Changing the attribute ``verbose`` will change the amount of output of the :func:`var_mesh` function, with the maximum output at level ``6``. The error threshold can be changed as well.
 
 .. code-block:: python
 

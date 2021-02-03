@@ -17,7 +17,7 @@ gen_mesh.ang = {'H': gen_mesh.ang_grids[15:20],
 
 mol = gto.M(atom='O 0 0 0; H 0 0 0.95691; H 0.95691 0 -0.23987')
 mesh = dft.Grids(mol)
-# Get the maximal output with a larger verbosity level
+# Generate more output with a larger verbosity level
 mesh.verbose = 5
 # Change mesh parameters before calling var_mesh
 mesh.prune = None
