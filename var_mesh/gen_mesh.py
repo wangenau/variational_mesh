@@ -43,6 +43,26 @@ def var_mesh(mesh, thres=1e-6, precise=True, mode='pyscf'):
     # Initialize logger
     verbose = mesh.verbose
     log = logger.Logger(stdout, verbose)
+    # Handle user inputs
+    if not isinstance(mesh, dft.gen_grid.Grids):
+        log.error('The mesh parameter has to be a Grids object.')
+    if not isinstance(thres, float) and not isinstance(thres, int):
+        log.error('The threshold parameter has to be a number.')
+    if thres < 0:
+        log.error('The threshold parameter has to be positive.')
+    if not isinstance(precise, bool):
+        log.error('The precise parameter has to be a boolean.')
+    if not isinstance(mode, str):
+        log.error('The mode parameter has to be a string.')
+    mode = mode.lower()
+    supported = ('pyscf', 'erkale', 'gamess')
+    if mode not in supported:
+        log.error('The mode parameter has to be one of \'%s\'.',
+                  '\', \''.join(supported))
+    if mode != 'pyscf' and precise:
+        log.warn('The precise parameter has no effect when using %s mode.',
+                 mode)
+
     # Create calculator to generate the initial density
     mf = dft.RKS(mesh.mol)
     mf.max_cycle = 0
@@ -51,10 +71,6 @@ def var_mesh(mesh, thres=1e-6, precise=True, mode='pyscf'):
     mf.verbose = 0
     mf.mol.verbose = 0
     mf.grids.verbose = 0
-
-    mode = mode.lower()
-    if mode != 'pyscf' and precise:
-        log.warn('The precise option has no effect when using %s mode.', mode)
 
     # Enter coarse grid search
     types = atom_types(mesh.mol)
