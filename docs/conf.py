@@ -11,7 +11,7 @@ project = 'Variational Mesh'
 author = 'Wanja Schulze'
 copyright = '2020-2021, Wanja Schulze'
 version = '1.0'
-release = '1.0.1'
+release = '1.0.2'
 
 # -- General configuration ---------------------------------------------------
 
