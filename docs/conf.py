@@ -4,14 +4,15 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
 import sphinx_rtd_theme
+import var_mesh
 
 # -- Project information -----------------------------------------------------
 
 project = 'Variational Mesh'
 author = 'Wanja Schulze'
 copyright = '2020-2021, Wanja Schulze'
-version = '1.0'
-release = '1.0.2'
+version = var_mesh.__version__
+release = var_mesh.__version__
 
 # -- General configuration ---------------------------------------------------
 
