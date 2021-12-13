@@ -11,7 +11,7 @@ with open('README.md', 'r') as fh:
 setup(
     name='var_mesh',
     version=version['__version__'],
-    description='Variational Mesh',
+    description='Optimize meshes for quantum chemistry calculations.',
     long_description=long_description,
     long_description_content_type='text/markdown',
     url='https://gitlab.com/wangenau/variational_mesh',
