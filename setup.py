@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 from setuptools import find_packages, setup
 
-version = {}
-with open('var_mesh/version.py') as fp:
-    exec(fp.read(), version)
+with open('var_mesh/version.py', 'r') as fh:
+    version = {}
+    exec(fh.read(), version)
 
 with open('README.md', 'r') as fh:
     long_description = fh.read()
