@@ -1,4 +1,4 @@
-image: python:3-slim
+image: python:3.9-slim
 
 pages:
   stage: deploy
@@ -11,9 +11,11 @@ pages:
   artifacts:
     paths:
     - public
+    expire_in: 1 week
   only:
     refs:
       - master
     changes:
       - docs/*
       - docs/**/*
+      - var_mesh/version.py
