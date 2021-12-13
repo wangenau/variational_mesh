@@ -19,7 +19,7 @@ setup(
     author_email='wangenau@protonmail.com',
     license='APACHE2.0',
     packages=find_packages(exclude=('docs', 'examples')),
-    install_requires=['matplotlib', 'numpy', 'pyscf>=1.7,<2'],
+    install_requires=['matplotlib', 'numpy', 'pyscf>=1.7'],
     python_requires='>=2.7 ,>=3.4',
     include_package_data=True,
     zip_safe=False
